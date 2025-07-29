@@ -1,0 +1,24 @@
+// Use o IntelliSense para saber mais sobre os atributos possíveis.
+// Focalizar para exibir as descrições dos atributos existentes.
+// Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "msedge",
+      "request": "launch",
+      "name": "Abrir index.html",
+      "file": "c:\\Users\\MARCOSALEXANDREPERDO\\OneDrive - MARCOS DESPACHANTE\\Marcos Despachante\\Software\\Site Marcos Despachante\\despachante-site\\index.html"
+    },
+    {
+      "type": "pwa-msedge",
+      "name": "Launch Microsoft Edge in headless mode",
+      "request": "launch",
+      "runtimeArgs": ["--headless", "--remote-debugging-port=9222"],
+      "url": "file:///c:/Users/MARCOSALEXANDREPERDO/OneDrive%20-%20MARCOS%20DESPACHANTE/Marcos%20Despachante/Software/Site%20Marcos%20Despachante/despachante-site/index.html",
+      "presentation": {
+        "hidden": true
+      }
+    }
+  ]
+}
