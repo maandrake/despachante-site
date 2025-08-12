@@ -138,31 +138,52 @@ document.addEventListener("DOMContentLoaded", function () {
     
     form.addEventListener("submit", function(e) {
       e.preventDefault();
-      
-      // Simulação de envio (em produção, você usaria um backend real)
+
       formStatus.textContent = "Enviando...";
       formStatus.className = "form-status";
       formStatus.style.display = "block";
-      
-      // Dados do formulário
-      const formData = {
-        nome: document.getElementById("nome").value,
-        placa: document.getElementById("placa").value,
-        telefone: document.getElementById("telefone").value,
-        email: document.getElementById("email").value
-      };
-      
-      // Simulação de envio com timeout (em produção, seria uma requisição real)
-      setTimeout(() => {
-        // Simulação de sucesso
-        formStatus.textContent = "Orçamento solicitado com sucesso! Em breve entraremos em contato.";
-        formStatus.className = "form-status success";
-        form.reset();
-        
-        // Para simular um erro, descomente as linhas abaixo:
-        // formStatus.textContent = "Erro ao enviar o orçamento. Por favor, tente novamente mais tarde.";
-        // formStatus.className = "form-status error";
-      }, 1500);
+
+      const submitBtn = form.querySelector(".btn-enviar");
+      if (submitBtn) submitBtn.disabled = true;
+
+      // Use o endpoint definido no atributo action do formulário
+      const endpoint = form.getAttribute("action") || "https://formspree.io/f/movlrkyn";
+
+      const payload = new FormData(form);
+      // Opcional: definir/garantir assunto via JS
+      if (!payload.has("_subject")) {
+        payload.append("_subject", "Solicitação de orçamento - Site");
+      }
+
+      fetch(endpoint, {
+        method: "POST",
+        body: payload,
+        headers: { "Accept": "application/json" }
+      })
+      .then(async (res) => {
+        if (res.ok) {
+          formStatus.textContent = "Orçamento solicitado com sucesso! Em breve entraremos em contato.";
+          formStatus.className = "form-status success";
+          form.reset();
+        } else {
+          let msg = "Erro ao enviar o orçamento. Por favor, tente novamente mais tarde.";
+          try {
+            const data = await res.json();
+            if (data.errors && data.errors.length) {
+              msg = data.errors.map(e => e.message).join(" ");
+            }
+          } catch {}
+          formStatus.textContent = msg;
+          formStatus.className = "form-status error";
+        }
+      })
+      .catch(() => {
+        formStatus.textContent = "Falha de rede ao enviar o orçamento. Verifique sua conexão e tente novamente.";
+        formStatus.className = "form-status error";
+      })
+      .finally(() => {
+        if (submitBtn) submitBtn.disabled = false;
+      });
     });
   }
 });
