@@ -28,37 +28,47 @@ window.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Variável para controlar o estado do banner e otimizar performance
 let bannerApagado = false;
+let ticking = false;
 
-window.addEventListener('scroll', function () {
-  const items = getScrollItemsDentroDe('scroll');
+// Função unified para todos os efeitos de scroll
+function handleScrollEffects() {
+  const scrollY = window.scrollY;
+  const scrollThreshold = 50; // Threshold único e consistente
+  
+  // Seleciona elementos do banner
   const banner = document.querySelector('.banner');
-  // Marca cada item com 'efeito-scroll' e ajusta a escala conforme a rolagem
-  items.forEach(item => {
-    // 'efeito-scroll' pode ter estilos opcionais definidos no CSS
-    item.classList.add('efeito-scroll');
-    if (window.scrollY > 0) {
-      item.classList.add('escalado');
-    } else {
-      item.classList.remove('escalado');
-    }
-  });
-
-  // Reduz o banner quando houver rolagem
-  if (banner) {
-    if (window.scrollY > 0 && !bannerApagado) {
+  const bannerImg = document.querySelector('.scroll-img');
+  const bannerMenu = document.querySelector('.scroll-menu');
+  
+  // Aplica ou remove as classes baseado no threshold
+  const shouldShrink = scrollY > scrollThreshold;
+  
+  if (banner && bannerImg && bannerMenu) {
+    if (shouldShrink && !bannerApagado) {
       banner.classList.add('apagado');
+      bannerImg.classList.add('escalado');
+      bannerMenu.classList.add('escalado');
       bannerApagado = true;
-    } else if (window.scrollY === 0 && bannerApagado) {
+    } else if (!shouldShrink && bannerApagado) {
       banner.classList.remove('apagado');
+      bannerImg.classList.remove('escalado');
+      bannerMenu.classList.remove('escalado');
       bannerApagado = false;
     }
   }
-});
-
-function getScrollItemsDentroDe(classePai) {
-  return document.querySelectorAll(`.${classePai} .scroll-img, .${classePai} .scroll-menu`);
+  
+  ticking = false;
 }
+
+// Listener otimizado com requestAnimationFrame
+window.addEventListener('scroll', function () {
+  if (!ticking) {
+    window.requestAnimationFrame(handleScrollEffects);
+    ticking = true;
+  }
+});
 
 // Funções de animação fade-in
 document.addEventListener("DOMContentLoaded", function () {
@@ -80,25 +90,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Verifica os elementos ao carregar a página
   handleScroll();
 
-  // Adiciona o evento de scroll
+  // Adiciona o evento de scroll para fade-in
   window.addEventListener("scroll", handleScroll);
-
-  // Configurações para efeito de scroll no header
-  window.addEventListener("scroll", function () {
-    const banner = document.querySelector(".banner");
-    const bannerImg = document.querySelector(".scroll-img");
-    const bannerMenu = document.querySelector(".scroll-menu");
-
-    if (window.scrollY > 100) {
-      banner.classList.add("apagado");
-      bannerImg.classList.add("escalado");
-      bannerMenu.classList.add("escalado");
-    } else {
-      banner.classList.remove("apagado");
-      bannerImg.classList.remove("escalado");
-      bannerMenu.classList.remove("escalado");
-    }
-  });
 
   // Configuração do formulário de orçamento
   const form = document.getElementById("orcamentoForm");
