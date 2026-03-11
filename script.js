@@ -1,4 +1,73 @@
 window.addEventListener("DOMContentLoaded", function () {
+  // Controle do menu mobile
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mainMenu = document.querySelector('.main-menu');
+  const menuLinks = document.querySelectorAll('.main-menu a');
+  
+  if (menuToggle && mainMenu) {
+    // Toggle do menu ao clicar no botão
+    menuToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isActive = menuToggle.classList.toggle('active');
+      mainMenu.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
+      menuToggle.setAttribute('aria-expanded', isActive);
+    });
+
+    // Fechar menu ao clicar em um link
+    menuLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        menuToggle.classList.remove('active');
+        mainMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Fechar menu ao clicar no overlay
+    document.addEventListener('click', function(e) {
+      if (mainMenu.classList.contains('active') && 
+          !mainMenu.contains(e.target) && 
+          !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        mainMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Fechar menu ao pressionar ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mainMenu.classList.contains('active')) {
+        menuToggle.classList.remove('active');
+        mainMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Fechar menu ao redimensionar janela e limpar classes de escala no mobile
+    window.addEventListener('resize', function() {
+      const isMobile = window.innerWidth <= 768;
+      
+      // Fechar menu ao voltar para desktop
+      if (window.innerWidth > 768 && mainMenu.classList.contains('active')) {
+        menuToggle.classList.remove('active');
+        mainMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+      
+      // Remover classes de escala no mobile para evitar tremor
+      if (isMobile) {
+        const bannerImg = document.querySelector('.scroll-img');
+        const bannerMenu = document.querySelector('.scroll-menu');
+        if (bannerImg) bannerImg.classList.remove('escalado');
+        if (bannerMenu) bannerMenu.classList.remove('escalado');
+      }
+    });
+  }
+
   // Seleciona todos os textos do menu
   const textos = document.querySelectorAll(".menu-texto");
   // Adiciona a classe para mostrar ao carregar
@@ -36,6 +105,7 @@ let ticking = false;
 function handleScrollEffects() {
   const scrollY = window.scrollY;
   const scrollThreshold = 50; // Threshold único e consistente
+  const isMobile = window.innerWidth <= 768; // Detectar se é mobile
   
   // Seleciona elementos do banner
   const banner = document.querySelector('.banner');
@@ -48,8 +118,11 @@ function handleScrollEffects() {
   if (banner && bannerImg && bannerMenu) {
     if (shouldShrink && !bannerApagado) {
       banner.classList.add('apagado');
-      bannerImg.classList.add('escalado');
-      bannerMenu.classList.add('escalado');
+      // Não aplicar escalado no mobile para evitar tremor
+      if (!isMobile) {
+        bannerImg.classList.add('escalado');
+        bannerMenu.classList.add('escalado');
+      }
       bannerApagado = true;
     } else if (!shouldShrink && bannerApagado) {
       banner.classList.remove('apagado');

@@ -5,20 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "msedge",
+      "type": "chrome",
       "request": "launch",
-      "name": "Abrir index.html",
-      "file": "c:\\Users\\MARCOSALEXANDREPERDO\\OneDrive - MARCOS DESPACHANTE\\Marcos Despachante\\Software\\Site Marcos Despachante\\despachante-site\\index.html"
+      "name": "Abrir no Chrome",
+      "file": "${workspaceFolder}/index.html",
+      "webRoot": "${workspaceFolder}"
     },
     {
-      "type": "pwa-msedge",
-      "name": "Launch Microsoft Edge in headless mode",
+      "type": "msedge",
       "request": "launch",
-      "runtimeArgs": ["--headless", "--remote-debugging-port=9222"],
-      "url": "file:///c:/Users/MARCOSALEXANDREPERDO/OneDrive%20-%20MARCOS%20DESPACHANTE/Marcos%20Despachante/Software/Site%20Marcos%20Despachante/despachante-site/index.html",
-      "presentation": {
-        "hidden": true
-      }
+      "name": "Abrir no Edge",
+      "file": "${workspaceFolder}/index.html",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }

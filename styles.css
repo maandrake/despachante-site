@@ -1,5 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Barlow Semi Condensed", Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* Header e Banner */
 header {
   position: sticky;
@@ -17,6 +38,59 @@ header {
   padding: 20px;
   background-color: #f5f5f58a;
   transition: padding 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+  position: relative;
+}
+
+/* Botão hamburger para mobile */
+.menu-toggle {
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(to right, #0063ba 0%, #83c2ff 100%);
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 6000;
+  width: 50px;
+  height: 50px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 0 2px 8px rgba(0, 99, 186, 0.3);
+}
+
+.menu-toggle span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.menu-toggle:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.menu-toggle:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 .banner.apagado {
@@ -122,7 +196,7 @@ header {
   height: 100px;
   bottom: 30px;
   right: 30px;
-  z-index: 100;
+  z-index: 4999;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
 }
@@ -166,12 +240,14 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .box1 {
   grid-column: 1/3;
   grid-row: 1;
   background-color: #0063ba;
+  width: 100%;
 }
 
 .box1 h1 {
@@ -180,12 +256,15 @@ header {
   font-weight: 700;
   font-size: 64px;
   text-align: center;
+  padding: 20px 15px;
+  width: 100%;
 }
 
 .box2 {
   grid-column: 1/3;
   grid-row: 2;
   background-color: #0063ba;
+  width: 100%;
 }
 
 .box2 h2 {
@@ -194,12 +273,16 @@ header {
   font-weight: 700;
   font-size: 48px;
   text-align: center;
+  padding: 20px 15px;
+  width: 100%;
 }
 
 .box3 {
   grid-row: 1/3;
   grid-column: 3;
   background-color: #0063ba;
+  width: 100%;
+  padding: 20px 0;
 }
 
 .box3 img {
@@ -472,19 +555,30 @@ header {
   .box6 h3 { font-size: 28px; }
 }
 
+/* Desktop - Esconder botão hamburger */
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none !important;
+  }
+}
+
 /* Responsivo: 900px */
 @media (max-width: 900px) {
-  body { overflow-x: hidden; }
-
   .wrapper {
     grid-template-columns: 1fr;
-    grid-gap: 10px;
+    grid-gap: 0;
+    width: 100%;
+    margin: 0;
   }
 
-  .box1, .box2, .box3 { grid-column: 1; }
+  .box1, .box2, .box3 { 
+    grid-column: 1;
+    width: 100%;
+    margin: 0;
+  }
   .box1 { grid-row: 1; }
   .box2 { grid-row: 2; }
-  .box3 { grid-row: 3; }
+  .box3 { grid-row: 3; padding: 20px 0; }
   .box4 { grid-row: 4; }
   .box5 { grid-row: 5; }
   .box6 { grid-row: 6; }
@@ -492,23 +586,185 @@ header {
 
   .banner { padding: 12px; }
   .banner.apagado { height: 68px; }
-  .banner-img { width: 72px; height: 72px; margin-right: 12px; }
+  .banner-img { 
+    width: 72px; 
+    height: 72px; 
+    margin-right: 12px;
+    border: none;
+    border-radius: 0;
+  }
 
+  .main-menu { padding: 0 10px; }
+  .main-menu ul { gap: 6px; }
   .main-menu a { font-size: 18px; }
 
-  /* Evita encolhimento excessivo no mobile ao rolar */
-  .scroll .scroll-img.escalado { transform: scale(0.75); }
-  .scroll .scroll-menu.escalado { transform: scale(0.9); }
+  /* Suavizar efeitos de scroll no tablet */
+  .scroll .scroll-img.escalado { 
+    transform: scale(0.75);
+    transition: transform 0.3s ease;
+  }
+  
+  .scroll .scroll-menu.escalado { 
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+  }
 
   .box1 h1 { font-size: 40px; }
   .box2 h2 { font-size: 32px; }
+
+  .box1, .box2 {
+    width: 100%;
+    margin: 0;
+  }
+
+  .box1 h1, .box2 h2 {
+    padding: 20px 15px;
+    width: 100%;
+  }
+
+  .box3 img {
+    max-width: 500px;
+    width: 100%;
+    display: block;
+  }
+
+  .box5 p {
+    font-size: 22px;
+    padding: 20px 15px;
+  }
 }
 
-/* Responsivo: 768px */
+/* Responsivo: 768px - Menu lateral vertical */
 @media (max-width: 768px) {
-  /* Mostrar texto do menu sem depender de hover */
-  .menu-texto { max-width: none; opacity: 1; }
-  .menu-btn:hover .menu-icon { transform: none; }
+  /* Garantir largura total sem margens */
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .box1, .box2, .box3, .box4, .box5, .box6, .box7 {
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Desabilitar efeitos de escala do scroll no mobile */
+  .scroll .scroll-img.escalado,
+  .scroll .scroll-menu.escalado {
+    transform: none !important;
+  }
+
+  .scroll .scroll-img,
+  .scroll .scroll-menu {
+    transition: none;
+    will-change: auto;
+  }
+
+  /* Remover moldura do banner no mobile */
+  .banner-img {
+    border: none;
+    border-radius: 0;
+  }
+
+  /* Mostrar botão hamburger */
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* Menu lateral direito */
+  .main-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    padding: 80px 20px 20px;
+    border-radius: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: none !important;
+    z-index: 5500;
+    overflow-y: auto;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .main-menu.active {
+    right: 0;
+  }
+
+  .main-menu ul {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .main-menu li {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .main-menu li.ml-auto {
+    margin-left: 0;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .menu-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 14px 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+
+  .menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .menu-btn .menu-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .menu-texto {
+    max-width: none;
+    opacity: 1;
+    font-size: 18px;
+  }
+
+  /* Overlay escuro */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s, visibility 0.4s;
+    z-index: 5000;
+  }
+
+  body.menu-open::before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
 
   .whatsapp-float { width: 64px; height: 64px; bottom: 20px; right: 20px; }
 
@@ -524,21 +780,178 @@ header {
 
 /* Responsivo: 480px */
 @media (max-width: 480px) {
+  body, .wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
   .banner { padding: 8px; }
   .banner.apagado { height: 56px; }
-  .banner-img { width: 60px; height: 60px; margin-right: 10px; }
+  .banner-img { 
+    width: 60px; 
+    height: 60px; 
+    margin-right: 10px;
+    border: none;
+    border-radius: 0;
+  }
 
-  .main-menu a { font-size: 16px; }
+  .menu-toggle {
+    width: 46px;
+    height: 46px;
+    right: 10px;
+  }
 
-  .box1 h1 { font-size: 28px; }
-  .box2 h2 { font-size: 24px; }
-  .box4 h3 { font-size: 24px; }
-  .box5 p  { font-size: 18px; }
+  .menu-toggle span {
+    width: 24px;
+  }
+
+  .main-menu {
+    width: 260px;
+    padding: 70px 15px 15px;
+  }
+
+  .menu-btn {
+    padding: 12px 14px;
+  }
+
+  .menu-btn .menu-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .menu-texto {
+    font-size: 16px;
+  }
+
+  .box1 h1 { font-size: 28px; padding: 15px 10px; }
+  .box2 h2 { font-size: 24px; padding: 15px 10px; }
+  .box4 h3 { font-size: 24px; padding: 15px 10px; }
+  .box5 p  { font-size: 18px; line-height: 1.5; padding: 15px 10px; }
   .box6 h3 { font-size: 22px; }
+
+  .box1, .box2, .box3 {
+    width: 100%;
+    margin: 0;
+  }
+
+  .box3 img {
+    max-width: 350px;
+    width: 100%;
+    display: block;
+  }
 
   .btn-enviar { padding: 12px 18px; font-size: 16px; }
 
   .whatsapp-float { width: 56px; height: 56px; bottom: 16px; right: 16px; }
 
   .footer { padding: 24px 12px 12px 12px; }
+
+  .box6 {
+    padding: 20px 10px;
+  }
+
+  .mapa-container {
+    padding: 0 10px;
+  }
+
+  .form-group label {
+    font-size: 15px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 15px;
+  }
+}
+
+/* Responsivo: 360px - Telas muito pequenas */
+@media (max-width: 360px) {
+  body, .wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .banner { padding: 6px; }
+  .banner-img { 
+    width: 50px; 
+    height: 50px; 
+    margin-right: 8px;
+    border: none;
+    border-radius: 0;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+    right: 8px;
+    padding: 8px;
+  }
+
+  .menu-toggle span {
+    width: 22px;
+    height: 2.5px;
+  }
+
+  .main-menu {
+    width: 240px;
+  }
+
+  .menu-btn {
+    padding: 10px 12px;
+  }
+
+  .menu-btn .menu-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .menu-texto {
+    font-size: 15px;
+  }
+
+  .box1 h1 { font-size: 24px; padding: 12px 8px; }
+  .box2 h2 { font-size: 20px; padding: 12px 8px; }
+  .box4 h3 { font-size: 20px; padding: 12px 8px; }
+  .box5 p  { font-size: 16px; padding: 12px 8px; }
+  .box6 h3 { font-size: 20px; }
+
+  .box1, .box2, .box3 {
+    width: 100%;
+    margin: 0;
+  }
+
+  .box3 img {
+    max-width: 280px;
+    width: 100%;
+    display: block;
+  }
+
+  .form-orcamento {
+    padding: 10px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 14px;
+    padding: 9px;
+  }
+
+  .btn-enviar {
+    padding: 10px 16px;
+    font-size: 15px;
+  }
+
+  .footer-copy {
+    font-size: 0.85em;
+  }
+
+  .footer-section h4 {
+    font-size: 1em;
+  }
 }
