@@ -67,7 +67,7 @@ header {
   display: block;
   width: 28px;
   height: 3px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border-radius: 2px;
   transition: all 0.3s ease;
 }

@@ -76,35 +76,31 @@ window.addEventListener("DOMContentLoaded", function () {
   setTimeout(() => {
     textos.forEach((el) => el.classList.remove("menu-texto-visivel"));
   }, 5000);
-
-  // Animação sequencial
-  const elements = [
-    document.querySelector('.box1.fade-in'),
-    document.querySelector('.box2.fade-in'),
-    document.querySelector('.box3.fade-in'),
-    document.querySelector('.box4.fade-in'),
-    document.querySelector('.box5.fade-in'),
-    document.querySelector('.box6.fade-in'),
-    document.querySelector('.box7.fade-in'),
-    ...document.querySelectorAll('.quadro-container.fade-in')
-  ];
-  elements.forEach((el, i) => {
-    if (el) {
-      setTimeout(() => {
-        el.classList.add('show');
-      }, 200 + i * 250);
-    }
-  });
 });
 
 // Variável para controlar o estado do banner e otimizar performance
 let bannerApagado = false;
 let ticking = false;
+const shrinkEnterThreshold = 80;
+const shrinkExitThreshold = 20;
+
+function updateBannerState(shouldShrink, isMobile, banner, bannerImg, bannerMenu) {
+  banner.classList.toggle('apagado', shouldShrink);
+
+  if (shouldShrink && !isMobile) {
+    bannerImg.classList.add('escalado');
+    bannerMenu.classList.add('escalado');
+  } else {
+    bannerImg.classList.remove('escalado');
+    bannerMenu.classList.remove('escalado');
+  }
+
+  bannerApagado = shouldShrink;
+}
 
 // Função unified para todos os efeitos de scroll
 function handleScrollEffects() {
   const scrollY = window.scrollY;
-  const scrollThreshold = 50; // Threshold único e consistente
   const isMobile = window.innerWidth <= 768; // Detectar se é mobile
   
   // Seleciona elementos do banner
@@ -112,24 +108,17 @@ function handleScrollEffects() {
   const bannerImg = document.querySelector('.scroll-img');
   const bannerMenu = document.querySelector('.scroll-menu');
   
-  // Aplica ou remove as classes baseado no threshold
-  const shouldShrink = scrollY > scrollThreshold;
+  if (!banner || !bannerImg || !bannerMenu) {
+    ticking = false;
+    return;
+  }
   
-  if (banner && bannerImg && bannerMenu) {
-    if (shouldShrink && !bannerApagado) {
-      banner.classList.add('apagado');
-      // Não aplicar escalado no mobile para evitar tremor
-      if (!isMobile) {
-        bannerImg.classList.add('escalado');
-        bannerMenu.classList.add('escalado');
-      }
-      bannerApagado = true;
-    } else if (!shouldShrink && bannerApagado) {
-      banner.classList.remove('apagado');
-      bannerImg.classList.remove('escalado');
-      bannerMenu.classList.remove('escalado');
-      bannerApagado = false;
-    }
+  const shouldShrink = bannerApagado
+    ? scrollY > shrinkExitThreshold
+    : scrollY > shrinkEnterThreshold;
+
+  if (shouldShrink !== bannerApagado) {
+    updateBannerState(shouldShrink, isMobile, banner, bannerImg, bannerMenu);
   }
   
   ticking = false;
@@ -142,6 +131,9 @@ window.addEventListener('scroll', function () {
     ticking = true;
   }
 });
+
+window.addEventListener('resize', handleScrollEffects);
+window.addEventListener('load', handleScrollEffects);
 
 // Funções de animação fade-in
 document.addEventListener("DOMContentLoaded", function () {
