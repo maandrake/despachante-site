@@ -47,7 +47,7 @@ header {
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(to right, #0063ba 0%, #83c2ff 100%);
+  background: linear-gradient(to right, #0063ba 0%, #1b6fae 100%);
   border: none;
   padding: 10px;
   border-radius: 8px;
@@ -111,7 +111,7 @@ header {
 
 /* Menu principal */
 .main-menu {
-  background: linear-gradient(to right, #0063ba 0%, #83c2ff 100%);
+  background: linear-gradient(to right, #0063ba 0%, #1b6fae 100%);
   padding: 0 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
@@ -437,7 +437,7 @@ header {
 }
 
 .btn-enviar {
-  background: linear-gradient(to right, #0063ba 0%, #83c2ff 100%);
+  background: linear-gradient(to right, #0063ba 0%, #1b6fae 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -504,7 +504,7 @@ header {
 
 /* Footer */
 .footer {
-  background: linear-gradient(90deg, #0063ba 60%, #83c2ff 100%);
+  background: linear-gradient(90deg, #0063ba 60%, #1b6fae 100%);
   color: #fff;
   padding: 32px 16px 16px 16px;
   margin-top: 32px;
@@ -526,7 +526,7 @@ header {
   flex: 1 1 220px;
 }
 
-.footer-section h4 {
+.footer-section h2 {
   font-size: 1.2em;
   margin-bottom: 12px;
   color: #fff;
@@ -536,7 +536,7 @@ header {
 .footer-links { list-style: none; padding: 0; margin: 0; }
 .footer-links li { margin-bottom: 8px; }
 .footer-links a { color: #fff; text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: #83c2ff; text-decoration: underline; }
+.footer-links a:hover { color: #fff; text-decoration: underline; }
 
 .footer-social { display: flex; gap: 16px; margin-top: 8px; }
 .footer-icon { width: 32px; height: 32px; transition: transform 0.2s; }
@@ -959,7 +959,7 @@ header {
     font-size: 0.85em;
   }
 
-  .footer-section h4 {
+  .footer-section h2 {
     font-size: 1em;
   }
 }
@@ -1077,14 +1077,14 @@ body {
 }
 
 .btn-whatsapp {
-  background: #23a55a;
+  background: #168346;
   color: #fff;
   box-shadow: 0 9px 24px rgba(13, 89, 48, 0.25);
 }
 
 .btn-whatsapp:hover,
 .btn-whatsapp:focus-visible {
-  background: #178c49;
+  background: #147a41;
 }
 
 .btn-secondary {
@@ -1769,5 +1769,131 @@ body {
 
   .privacy-section h2 {
     font-size: 25px;
+  }
+}
+
+
+/* Etapa 4 — Acessibilidade e semântica */
+html {
+  scroll-padding-top: 120px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 10000;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: #fff;
+  color: #003b6f;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-180%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid #ffbf47;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px #003b6f;
+}
+
+#conteudo-principal:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+:where(a, button, input, textarea, select, [tabindex]) {
+  scroll-margin-block: 120px 24px;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.form-required-note {
+  margin: 0 0 16px;
+  color: #526b82;
+  font-size: 15px;
+}
+
+.required-marker {
+  color: #a32424;
+  font-weight: 800;
+}
+
+.form-help {
+  display: block;
+  margin-top: 6px;
+  color: #526b82;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.form-group input[aria-invalid="true"] {
+  border-color: #a32424;
+  box-shadow: 0 0 0 3px rgba(163, 36, 36, 0.18);
+}
+
+.form-status.is-pending {
+  display: block;
+  border: 1px solid #245a86;
+  background: #e6f2fc;
+  color: #244e70;
+}
+
+.footer-section h2 {
+  font-size: 1.2em;
+  margin-bottom: 12px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.footer-address {
+  font-style: normal;
+}
+
+@media (max-width: 768px) {
+  .main-menu {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .main-menu.active {
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .fade-in,
+  .fade-in.show {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
