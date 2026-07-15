@@ -137,7 +137,7 @@ header {
   text-decoration: none;
   font-family: "Barlow", Arial, sans-serif;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 26px;
   transition: color 0.2s;
   padding: 8px 0;
   display: block;
@@ -178,7 +178,7 @@ header {
   color: #ffffff;
   font-family: "Barlow", Arial, sans-serif;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 26px;
   text-align: center;
 }
 
@@ -993,7 +993,7 @@ body {
   max-width: none;
   opacity: 1;
   margin-top: 0;
-  font-size: 18px;
+  font-size: 26px;
 }
 
 .main-menu .menu-btn:hover,
