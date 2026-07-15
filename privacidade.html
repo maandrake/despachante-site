@@ -21,6 +21,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
   <header class="scroll">
     <div class="banner">
       <a href="index.html" aria-label="Voltar à página inicial">
@@ -46,7 +47,7 @@
     </div>
   </header>
 
-  <main class="privacy-page-main">
+  <main id="conteudo-principal" class="privacy-page-main" tabindex="-1">
     <section class="privacy-page-hero">
       <p class="section-label">Marcos Despachante</p>
       <h1>Política de Privacidade</h1>
@@ -154,11 +155,11 @@
           <p>
             O Marcos Despachante não vende nem comercializa os dados pessoais recebidos pelo site.
             Os prestadores possuem políticas próprias, incluindo a
-            <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">
+            <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer" aria-label="Política de Privacidade do Formspree (abre em nova guia)">
               Política de Privacidade do Formspree
             </a>
             e a
-            <a href="https://policies.google.com/privacy?hl=pt-BR" target="_blank" rel="noopener noreferrer">
+            <a href="https://policies.google.com/privacy?hl=pt-BR" target="_blank" rel="noopener noreferrer" aria-label="Política de Privacidade do Google (abre em nova guia)">
               Política de Privacidade do Google
             </a>.
           </p>
@@ -264,7 +265,7 @@
   <footer id="contato" class="footer quadro-container">
     <div class="footer-content">
       <div class="footer-section">
-        <h4>Links Rápidos:</h4>
+        <h2>Links Rápidos:</h2>
         <ul class="footer-links">
           <li><a href="index.html#inicio">Início</a></li>
           <li><a href="index.html#servicos">Serviços</a></li>
@@ -275,31 +276,31 @@
         </ul>
       </div>
       <div class="footer-section">
-        <h4>Endereço:</h4>
-        <p>
+        <h2>Endereço:</h2>
+        <address class="footer-address">
           AV BELISARIO RAMOS, 5370 - CENTRO<br>
           LAGES/SC - CEP 88.502-102<br>
           <strong>Telefone:</strong> <a href="tel:4933809550">(49) 3380-9550</a><br>
           <strong>E-mail:</strong>
           <a href="mailto:atendimento@marcosdespachante.com.br">atendimento@marcosdespachante.com.br</a>
-        </p>
+        </address>
         <p>
           <strong>Horário de atendimento:</strong><br>
           Segunda a Sexta: 8h às 12h e 13h30 às 19h
         </p>
       </div>
       <div class="footer-section">
-        <h4>Redes Sociais:</h4>
+        <h2>Redes Sociais:</h2>
         <div class="footer-social">
           <a href="https://www.facebook.com/marcosdespachantelages?locale=pt_BR" target="_blank"
-            rel="noopener noreferrer" title="Facebook">
+            rel="noopener noreferrer" title="Facebook" aria-label="Facebook (abre em nova guia)">
             <img src="imagens/facebook.png" alt="Facebook" class="footer-icon" />
           </a>
           <a href="https://www.instagram.com/marcosdespachantelages/" target="_blank" rel="noopener noreferrer"
-            title="Instagram">
+            title="Instagram" aria-label="Instagram (abre em nova guia)">
             <img src="imagens/instagram.png" alt="Instagram" class="footer-icon" />
           </a>
-          <a href="https://wa.me/554933809550" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+          <a href="https://wa.me/554933809550" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp (abre em nova guia)">
             <img src="imagens/whatsapp_icone.png" alt="WhatsApp" class="footer-icon" />
           </a>
         </div>
@@ -314,7 +315,7 @@
   <script src="script.js"></script>
   <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20atendimento."
     class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Fale conosco no WhatsApp"
-    aria-label="Fale conosco no WhatsApp">
+    aria-label="Fale conosco no WhatsApp (abre em nova guia)">
     <img src="imagens/whatsapp.png" alt="" />
   </a>
 </body>
