@@ -222,6 +222,24 @@
           </div>
 
           <input type="hidden" name="_subject" value="Solicitação de orçamento - Site">
+
+          <div class="privacy-notice" id="avisoPrivacidade">
+            <span class="privacy-icon" aria-hidden="true">i</span>
+            <p>
+              Seus dados serão utilizados para responder à solicitação e preparar o atendimento.
+              O envio ocorre por meio do Formspree. Consulte nossa
+              <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.
+            </p>
+          </div>
+
+          <label class="privacy-acknowledgement" for="privacidadeCiente">
+            <input type="checkbox" id="privacidadeCiente" name="privacidade_ciente" value="sim" required>
+            <span>
+              Declaro que li e estou ciente da
+              <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.
+            </span>
+          </label>
+
           <button type="submit" class="btn-enviar">Solicitar orçamento</button>
           <div id="formStatus" class="form-status" aria-live="polite"></div>
         </form>
@@ -275,7 +293,8 @@
       </div>
     </div>
     <div class="footer-copy">
-      © 2019 - 2026 Marcos Despachante. Todos os direitos reservados. CNPJ: 34.287.137/0001-90.
+      <span>© 2019 - 2026 Marcos Despachante. Todos os direitos reservados. CNPJ: 34.287.137/0001-90.</span>
+      <a class="footer-privacy-link" href="privacidade.html">Política de Privacidade</a>
     </div>
   </footer>
 
