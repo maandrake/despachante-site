@@ -23,62 +23,56 @@
   <link rel="canonical" href="https://www.marcosdespachante.com.br/" />
 </head>
 
-<body>
+<body id="inicio">
   <header class="scroll">
     <div class="banner">
       <img src="imagens/banner.jpg" alt="Logo do Despachante" class="banner-img scroll-img" />
-      <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
-      <nav class="main-menu scroll-menu">
+      <nav id="main-menu" class="main-menu scroll-menu" aria-label="Navegação principal">
         <ul>
           <li>
-            <a href="index.html" class="menu-btn">
-              <img src="imagens/home.png" alt="Início" class="menu-icon" />
+            <a href="#inicio" class="menu-btn">
+              <img src="imagens/home.png" alt="" class="menu-icon" />
               <span class="menu-texto">Início</span>
             </a>
           </li>
           <li>
-            <a href="#" class="menu-btn">
-              <img src="imagens/servicos.png" alt="Serviços" class="menu-icon" />
-              <span class="menu-texto">Serviços</span>
+            <a href="#localizacao" class="menu-btn">
+              <img src="imagens/parceiros.png" alt="" class="menu-icon" />
+              <span class="menu-texto">Localização</span>
             </a>
           </li>
           <li>
-            <a href="#" class="menu-btn">
-              <img src="imagens/parceiros.png" alt="Parceiros" class="menu-icon" />
-              <span class="menu-texto">Parceiros</span>
+            <a href="#orcamento" class="menu-btn">
+              <img src="imagens/servicos.png" alt="" class="menu-icon" />
+              <span class="menu-texto">Orçamento</span>
             </a>
           </li>
           <li>
-            <a href="#" class="menu-btn">
-              <img src="imagens/sobre.png" alt="Sobre" class="menu-icon" />
-              <span class="menu-texto">Sobre</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="menu-btn">
-              <img src="imagens/contato.png" alt="Contato" class="menu-icon" />
+            <a href="#contato" class="menu-btn">
+              <img src="imagens/contato.png" alt="" class="menu-icon" />
               <span class="menu-texto">Contato</span>
             </a>
           </li>
           <li class="ml-auto">
-            <a href="https://www.facebook.com/marcosdespachantelages?locale=pt_BR" class="menu-btn">
-              <img src="imagens/facebook.png" alt="Facebook" class="menu-icon" />
+            <a href="https://www.facebook.com/marcosdespachantelages?locale=pt_BR" class="menu-btn" target="_blank" rel="noopener noreferrer">
+              <img src="imagens/facebook.png" alt="" class="menu-icon" />
               <span class="menu-texto">Facebook</span>
             </a>
           </li>
           <li>
-            <a href="https://www.instagram.com/marcosdespachantelages/" class="menu-btn">
-              <img src="imagens/instagram.png" alt="Instagram" class="menu-icon" />
+            <a href="https://www.instagram.com/marcosdespachantelages/" class="menu-btn" target="_blank" rel="noopener noreferrer">
+              <img src="imagens/instagram.png" alt="" class="menu-icon" />
               <span class="menu-texto">Instagram</span>
             </a>
           </li>
           <li>
-            <a href="https://wa.me/554933809550" class="menu-btn">
-              <img src="imagens/whatsapp_icone.png" alt="WhatsApp" class="menu-icon" />
+            <a href="https://wa.me/554933809550" class="menu-btn" target="_blank" rel="noopener noreferrer">
+              <img src="imagens/whatsapp_icone.png" alt="" class="menu-icon" />
               <span class="menu-texto">WhatsApp</span>
             </a>
           </li>
@@ -106,15 +100,15 @@
         atender suas necessidades com agilidade e segurança.
       </p>
     </div>
-    <div class="box6">
+    <div id="localizacao" class="box6">
       <h3>Nossa localização:</h3>
       <div class="mapa-container">
         <iframe src="https://www.google.com/maps?q=-27.8213158,-50.3220716&z=17&output=embed" width="100%" height="300"
-          style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          style="border:0;" title="Localização do Marcos Despachante em Lages" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
 
-    <div class="box7">
+    <div id="orcamento" class="box7">
       <h3>Solicite um orçamento</h3>
       <form id="orcamentoForm" class="form-orcamento" action="https://formspree.io/f/movlrkyn" method="POST">
         <div class="form-row">
@@ -124,14 +118,14 @@
           </div>
           <div class="form-group">
             <label for="placa">Placa do veículo:</label>
-            <input type="text" id="placa" name="placa" placeholder="XXX-0000" maxlength="8" required>
+            <input type="text" id="placa" name="placa" placeholder="ABC-1234 ou ABC1D23" maxlength="8" pattern="[A-Za-z]{3}(?:-?[0-9]{4}|[0-9][A-Za-z][0-9]{2})" title="Informe uma placa no padrão ABC-1234 ou ABC1D23" autocomplete="off" required>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="telefone">Telefone:</label>
-            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" maxlength="15" autocomplete="tel" required>
           </div>
           <div class="form-group">
             <label for="email">E-mail:</label>
@@ -146,7 +140,7 @@
       </form>
     </div>
   </div>
-  <footer class="footer quadro-container fade-in">
+  <footer id="contato" class="footer quadro-container fade-in">
     <div class="footer-content">
       <div class="footer-section">
         <h4>Links Rápidos:</h4>
@@ -175,13 +169,13 @@
       <div class="footer-section">
         <h4>Redes Sociais:</h4>
         <div class="footer-social">
-          <a href="https://www.facebook.com/marcosdespachantelages?locale=pt_BR" target="_blank" title="Facebook">
+          <a href="https://www.facebook.com/marcosdespachantelages?locale=pt_BR" target="_blank" rel="noopener noreferrer" title="Facebook">
             <img src="imagens/facebook.png" alt="Facebook" class="footer-icon" />
           </a>
-          <a href="https://www.instagram.com/marcosdespachantelages/" target="_blank" title="Instagram">
+          <a href="https://www.instagram.com/marcosdespachantelages/" target="_blank" rel="noopener noreferrer" title="Instagram">
             <img src="imagens/instagram.png" alt="Instagram" class="footer-icon" />
           </a>
-          <a href="https://wa.me/554933809550" target="_blank" title="WhatsApp">
+          <a href="https://wa.me/554933809550" target="_blank" rel="noopener noreferrer" title="WhatsApp">
             <img src="imagens/whatsapp_icone.png" alt="WhatsApp" class="footer-icon" />
           </a>
         </div>
@@ -192,7 +186,7 @@
     </div>
   </footer>
   <script src="script.js"></script>
-  <a href="https://wa.me/554933809550" class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
+  <a href="https://wa.me/554933809550" class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Fale conosco no WhatsApp">
     <img src="imagens/whatsapp.png" alt="WhatsApp" />
   </a>
 </body>
