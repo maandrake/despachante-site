@@ -1,139 +1,91 @@
 window.addEventListener("DOMContentLoaded", function () {
-  // Controle do menu mobile
-  const menuToggle = document.querySelector('.menu-toggle');
-  const mainMenu = document.querySelector('.main-menu');
-  const menuLinks = document.querySelectorAll('.main-menu a');
-  
+  const menuToggle = document.querySelector(".menu-toggle");
+  const mainMenu = document.querySelector(".main-menu");
+  const menuLinks = document.querySelectorAll(".main-menu a");
+
+  function setMenuState(isOpen, returnFocus = false) {
+    if (!menuToggle || !mainMenu) return;
+    menuToggle.classList.toggle("active", isOpen);
+    mainMenu.classList.toggle("active", isOpen);
+    document.body.classList.toggle("menu-open", isOpen);
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
+    if (!isOpen && returnFocus) menuToggle.focus();
+  }
+
   if (menuToggle && mainMenu) {
-    // Toggle do menu ao clicar no botão
-    menuToggle.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const isActive = menuToggle.classList.toggle('active');
-      mainMenu.classList.toggle('active');
-      document.body.classList.toggle('menu-open');
-      menuToggle.setAttribute('aria-expanded', isActive);
+    menuToggle.addEventListener("click", function (event) {
+      event.stopPropagation();
+      setMenuState(!mainMenu.classList.contains("active"));
     });
-
-    // Fechar menu ao clicar em um link
-    menuLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        menuToggle.classList.remove('active');
-        mainMenu.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-
-    // Fechar menu ao clicar no overlay
-    document.addEventListener('click', function(e) {
-      if (mainMenu.classList.contains('active') && 
-          !mainMenu.contains(e.target) && 
-          !menuToggle.contains(e.target)) {
-        menuToggle.classList.remove('active');
-        mainMenu.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
+    menuLinks.forEach((link) => link.addEventListener("click", () => setMenuState(false)));
+    document.addEventListener("click", function (event) {
+      if (mainMenu.classList.contains("active") &&
+          !mainMenu.contains(event.target) &&
+          !menuToggle.contains(event.target)) {
+        setMenuState(false);
       }
     });
-
-    // Fechar menu ao pressionar ESC
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && mainMenu.classList.contains('active')) {
-        menuToggle.classList.remove('active');
-        mainMenu.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && mainMenu.classList.contains("active")) {
+        setMenuState(false, true);
       }
     });
-
-    // Fechar menu ao redimensionar janela e limpar classes de escala no mobile
-    window.addEventListener('resize', function() {
-      const isMobile = window.innerWidth <= 768;
-      
-      // Fechar menu ao voltar para desktop
-      if (window.innerWidth > 768 && mainMenu.classList.contains('active')) {
-        menuToggle.classList.remove('active');
-        mainMenu.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-      
-      // Remover classes de escala no mobile para evitar tremor
-      if (isMobile) {
-        const bannerImg = document.querySelector('.scroll-img');
-        const bannerMenu = document.querySelector('.scroll-menu');
-        if (bannerImg) bannerImg.classList.remove('escalado');
-        if (bannerMenu) bannerMenu.classList.remove('escalado');
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 768 && mainMenu.classList.contains("active")) {
+        setMenuState(false);
       }
     });
   }
 
-  // Seleciona todos os textos do menu
   const textos = document.querySelectorAll(".menu-texto");
-  // Adiciona a classe para mostrar ao carregar
-  textos.forEach((el) => el.classList.add("menu-texto-visivel"));
-  // Remove a classe após 5 segundos
+  textos.forEach((elemento) => elemento.classList.add("menu-texto-visivel"));
   setTimeout(() => {
-    textos.forEach((el) => el.classList.remove("menu-texto-visivel"));
+    textos.forEach((elemento) => elemento.classList.remove("menu-texto-visivel"));
   }, 5000);
 });
 
-// Variável para controlar o estado do banner e otimizar performance
+// Controle do banner durante rolagem e redimensionamento
 let bannerApagado = false;
 let ticking = false;
+let ultimoModoMobile = null;
 const shrinkEnterThreshold = 80;
 const shrinkExitThreshold = 20;
+const banner = document.querySelector(".banner");
+const bannerImg = document.querySelector(".scroll-img");
+const bannerMenu = document.querySelector(".scroll-menu");
 
-function updateBannerState(shouldShrink, isMobile, banner, bannerImg, bannerMenu) {
-  banner.classList.toggle('apagado', shouldShrink);
-
-  if (shouldShrink && !isMobile) {
-    bannerImg.classList.add('escalado');
-    bannerMenu.classList.add('escalado');
-  } else {
-    bannerImg.classList.remove('escalado');
-    bannerMenu.classList.remove('escalado');
-  }
-
+function updateBannerState(shouldShrink, isMobile) {
+  banner.classList.toggle("apagado", shouldShrink);
+  bannerImg.classList.toggle("escalado", shouldShrink && !isMobile);
+  bannerMenu.classList.toggle("escalado", shouldShrink && !isMobile);
   bannerApagado = shouldShrink;
+  ultimoModoMobile = isMobile;
 }
 
-// Função unified para todos os efeitos de scroll
 function handleScrollEffects() {
-  const scrollY = window.scrollY;
-  const isMobile = window.innerWidth <= 768; // Detectar se é mobile
-  
-  // Seleciona elementos do banner
-  const banner = document.querySelector('.banner');
-  const bannerImg = document.querySelector('.scroll-img');
-  const bannerMenu = document.querySelector('.scroll-menu');
-  
   if (!banner || !bannerImg || !bannerMenu) {
     ticking = false;
     return;
   }
-  
+  const isMobile = window.innerWidth <= 768;
   const shouldShrink = bannerApagado
-    ? scrollY > shrinkExitThreshold
-    : scrollY > shrinkEnterThreshold;
-
-  if (shouldShrink !== bannerApagado) {
-    updateBannerState(shouldShrink, isMobile, banner, bannerImg, bannerMenu);
+    ? window.scrollY > shrinkExitThreshold
+    : window.scrollY > shrinkEnterThreshold;
+  if (shouldShrink !== bannerApagado || isMobile !== ultimoModoMobile) {
+    updateBannerState(shouldShrink, isMobile);
   }
-  
   ticking = false;
 }
 
-// Listener otimizado com requestAnimationFrame
-window.addEventListener('scroll', function () {
+window.addEventListener("scroll", function () {
   if (!ticking) {
     window.requestAnimationFrame(handleScrollEffects);
     ticking = true;
   }
-});
-
-window.addEventListener('resize', handleScrollEffects);
-window.addEventListener('load', handleScrollEffects);
+}, { passive: true });
+window.addEventListener("resize", handleScrollEffects);
+window.addEventListener("load", handleScrollEffects);
 
 // Funções de animação fade-in
 document.addEventListener("DOMContentLoaded", function () {
@@ -163,37 +115,41 @@ document.addEventListener("DOMContentLoaded", function () {
   const formStatus = document.getElementById("formStatus");
   
   if (form) {
-    // Formatação da placa
+    // Formatação das placas no padrão antigo e Mercosul
     const placaInput = document.getElementById("placa");
     if (placaInput) {
-      placaInput.addEventListener("input", function(e) {
-        let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        
-        if (value.length > 3) {
-          value = value.slice(0, 3) + '-' + value.slice(3, 7);
-        }
-        
-        e.target.value = value;
+      placaInput.addEventListener("input", function (event) {
+        const value = event.target.value
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, "")
+          .slice(0, 7);
+        event.target.value = /^[A-Z]{3}\d{1,4}$/.test(value)
+          ? value.slice(0, 3) + "-" + value.slice(3)
+          : value;
       });
     }
-    
-    // Formatação do telefone
+
+    // Formatação de telefone fixo e celular
     const telefoneInput = document.getElementById("telefone");
     if (telefoneInput) {
-      telefoneInput.addEventListener("input", function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        
-        if (value.length > 2) {
-          value = '(' + value.slice(0, 2) + ') ' + value.slice(2);
+      telefoneInput.addEventListener("input", function (event) {
+        const numeros = event.target.value.replace(/\D/g, "").slice(0, 11);
+        if (numeros.length === 0) {
+          event.target.value = "";
+        } else if (numeros.length <= 2) {
+          event.target.value = "(" + numeros;
+        } else if (numeros.length <= 10) {
+          const parteLocal = numeros.slice(2);
+          event.target.value = "(" + numeros.slice(0, 2) + ") " +
+            parteLocal.slice(0, 4) +
+            (parteLocal.length > 4 ? "-" + parteLocal.slice(4) : "");
+        } else {
+          event.target.value = "(" + numeros.slice(0, 2) + ") " +
+            numeros.slice(2, 7) + "-" + numeros.slice(7, 11);
         }
-        if (value.length > 10) {
-          value = value.slice(0, 10) + '-' + value.slice(10, 15);
-        }
-        
-        e.target.value = value;
       });
     }
-    
+
     form.addEventListener("submit", function(e) {
       e.preventDefault();
 
