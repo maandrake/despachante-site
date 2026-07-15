@@ -24,6 +24,7 @@
 </head>
 
 <body id="inicio">
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
   <header class="scroll">
     <div class="banner">
       <img src="imagens/banner.jpg" alt="Marcos Despachante" class="banner-img scroll-img" />
@@ -47,7 +48,7 @@
     </div>
   </header>
 
-  <main class="site-main">
+  <main id="conteudo-principal" class="site-main" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-content">
         <p class="hero-lema">O escritório que poupa o seu tempo!</p>
@@ -59,7 +60,7 @@
         <div class="hero-actions">
           <a class="btn btn-whatsapp"
             href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20atendimento."
-            target="_blank" rel="noopener noreferrer">Falar pelo WhatsApp</a>
+            target="_blank" rel="noopener noreferrer" aria-label="Falar pelo WhatsApp (abre em nova guia)">Falar pelo WhatsApp</a>
           <a class="btn btn-secondary" href="#orcamento">Solicitar orçamento</a>
         </div>
       </div>
@@ -81,7 +82,7 @@
           <h3>Transferência de propriedade</h3>
           <p>Orientação e acompanhamento da transferência entre comprador e vendedor.</p>
           <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20transfer%C3%AAncia%20de%20propriedade."
-            target="_blank" rel="noopener noreferrer">Solicitar pelo WhatsApp</a>
+            target="_blank" rel="noopener noreferrer" aria-label="Solicitar pelo WhatsApp (abre em nova guia)">Solicitar pelo WhatsApp</a>
         </article>
 
         <article class="service-card">
@@ -89,7 +90,7 @@
           <h3>Licenciamento anual</h3>
           <p>Regularização do licenciamento anual e orientação para emissão do documento digital.</p>
           <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20licenciamento%20anual."
-            target="_blank" rel="noopener noreferrer">Solicitar pelo WhatsApp</a>
+            target="_blank" rel="noopener noreferrer" aria-label="Solicitar pelo WhatsApp (abre em nova guia)">Solicitar pelo WhatsApp</a>
         </article>
 
         <article class="service-card">
@@ -97,7 +98,7 @@
           <h3>Primeiro emplacamento</h3>
           <p>Apoio no registro inicial e na documentação necessária para o primeiro emplacamento.</p>
           <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20primeiro%20emplacamento."
-            target="_blank" rel="noopener noreferrer">Solicitar pelo WhatsApp</a>
+            target="_blank" rel="noopener noreferrer" aria-label="Solicitar pelo WhatsApp (abre em nova guia)">Solicitar pelo WhatsApp</a>
         </article>
 
         <article class="service-card">
@@ -105,7 +106,7 @@
           <h3>Comunicação de venda</h3>
           <p>Orientação para formalizar a venda e resguardar o antigo proprietário.</p>
           <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20comunica%C3%A7%C3%A3o%20de%20venda."
-            target="_blank" rel="noopener noreferrer">Solicitar pelo WhatsApp</a>
+            target="_blank" rel="noopener noreferrer" aria-label="Solicitar pelo WhatsApp (abre em nova guia)">Solicitar pelo WhatsApp</a>
         </article>
 
         <article class="service-card">
@@ -113,7 +114,7 @@
           <h3>Segunda via de documentos</h3>
           <p>Auxílio nas solicitações de segunda via e na atualização de documentos veiculares.</p>
           <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20segunda%20via%20de%20documentos."
-            target="_blank" rel="noopener noreferrer">Solicitar pelo WhatsApp</a>
+            target="_blank" rel="noopener noreferrer" aria-label="Solicitar pelo WhatsApp (abre em nova guia)">Solicitar pelo WhatsApp</a>
         </article>
 
         <article class="service-card">
@@ -121,7 +122,7 @@
           <h3>Regularização de veículos</h3>
           <p>Análise das pendências e encaminhamento do procedimento adequado para regularização.</p>
           <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20regulariza%C3%A7%C3%A3o%20de%20ve%C3%ADculo."
-            target="_blank" rel="noopener noreferrer">Solicitar pelo WhatsApp</a>
+            target="_blank" rel="noopener noreferrer" aria-label="Solicitar pelo WhatsApp (abre em nova guia)">Solicitar pelo WhatsApp</a>
         </article>
       </div>
     </section>
@@ -195,29 +196,47 @@
           <h2>Solicite um orçamento</h2>
           <p>Preencha seus dados e retornaremos o contato.</p>
         </div>
-        <form id="orcamentoForm" class="form-orcamento" action="https://formspree.io/f/movlrkyn" method="POST">
+        <form id="orcamentoForm" class="form-orcamento" action="https://formspree.io/f/movlrkyn" method="POST"
+          aria-describedby="camposObrigatorios">
+          <p id="camposObrigatorios" class="form-required-note">
+            Todos os campos marcados com <span aria-hidden="true">*</span> são obrigatórios.
+          </p>
           <div class="form-row">
             <div class="form-group">
-              <label for="nome">Nome completo:</label>
-              <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+              <label for="nome">
+                Nome completo: <span class="required-marker" aria-hidden="true">*</span>
+                <span class="sr-only"> obrigatório</span>
+              </label>
+              <input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name" required>
             </div>
             <div class="form-group">
-              <label for="placa">Placa do veículo:</label>
+              <label for="placa">
+                Placa do veículo: <span class="required-marker" aria-hidden="true">*</span>
+                <span class="sr-only"> obrigatório</span>
+              </label>
               <input type="text" id="placa" name="placa" placeholder="ABC-1234 ou ABC1D23" maxlength="8"
                 pattern="[A-Za-z]{3}(?:-?[0-9]{4}|[0-9][A-Za-z][0-9]{2})"
-                title="Informe uma placa no padrão ABC-1234 ou ABC1D23" autocomplete="off" required>
+                title="Informe uma placa no padrão ABC-1234 ou ABC1D23" autocomplete="off"
+                aria-describedby="placaAjuda" required>
+              <small id="placaAjuda" class="form-help">Exemplos aceitos: ABC-1234 ou ABC1D23.</small>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label for="telefone">Telefone:</label>
+              <label for="telefone">
+                Telefone: <span class="required-marker" aria-hidden="true">*</span>
+                <span class="sr-only"> obrigatório</span>
+              </label>
               <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" maxlength="15"
                 autocomplete="tel" required>
             </div>
             <div class="form-group">
-              <label for="email">E-mail:</label>
-              <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+              <label for="email">
+                E-mail: <span class="required-marker" aria-hidden="true">*</span>
+                <span class="sr-only"> obrigatório</span>
+              </label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
             </div>
           </div>
 
@@ -228,7 +247,7 @@
             <p>
               Seus dados serão utilizados para responder à solicitação e preparar o atendimento.
               O envio ocorre por meio do Formspree. Consulte nossa
-              <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.
+              <a href="privacidade.html" target="_blank" rel="noopener noreferrer" aria-label="Política de Privacidade (abre em nova guia)">Política de Privacidade</a>.
             </p>
           </div>
 
@@ -236,21 +255,23 @@
             <input type="checkbox" id="privacidadeCiente" name="privacidade_ciente" value="sim" required>
             <span>
               Declaro que li e estou ciente da
-              <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.
+              <a href="privacidade.html" target="_blank" rel="noopener noreferrer" aria-label="Política de Privacidade (abre em nova guia)">Política de Privacidade</a>.
+              <span class="required-marker" aria-hidden="true">*</span>
+              <span class="sr-only"> obrigatório</span>
             </span>
           </label>
 
           <button type="submit" class="btn-enviar">Solicitar orçamento</button>
-          <div id="formStatus" class="form-status" aria-live="polite"></div>
+          <div id="formStatus" class="form-status" role="status" aria-live="polite" aria-atomic="true"></div>
         </form>
       </div>
     </section>
   </main>
 
-  <footer id="contato" class="footer quadro-container fade-in">
+  <footer id="contato" class="footer quadro-container">
     <div class="footer-content">
       <div class="footer-section">
-        <h4>Links Rápidos:</h4>
+        <h2>Links Rápidos:</h2>
         <ul class="footer-links">
           <li><a href="#inicio">Início</a></li>
           <li><a href="#servicos">Serviços</a></li>
@@ -262,31 +283,31 @@
         </ul>
       </div>
       <div class="footer-section">
-        <h4>Endereço:</h4>
-        <p>
+        <h2>Endereço:</h2>
+        <address class="footer-address">
           AV BELISARIO RAMOS, 5370 - CENTRO<br>
           LAGES/SC - CEP 88.502-102<br>
           <strong>Telefone:</strong> <a href="tel:4933809550">(49) 3380-9550</a><br>
           <strong>E-mail:</strong>
           <a href="mailto:atendimento@marcosdespachante.com.br">atendimento@marcosdespachante.com.br</a>
-        </p>
+        </address>
         <p>
           <strong>Horário de atendimento:</strong><br>
           Segunda a Sexta: 8h às 12h e 13h30 às 19h<br>
         </p>
       </div>
       <div class="footer-section">
-        <h4>Redes Sociais:</h4>
+        <h2>Redes Sociais:</h2>
         <div class="footer-social">
           <a href="https://www.facebook.com/marcosdespachantelages?locale=pt_BR" target="_blank"
-            rel="noopener noreferrer" title="Facebook">
+            rel="noopener noreferrer" title="Facebook" aria-label="Facebook (abre em nova guia)">
             <img src="imagens/facebook.png" alt="Facebook" class="footer-icon" />
           </a>
           <a href="https://www.instagram.com/marcosdespachantelages/" target="_blank" rel="noopener noreferrer"
-            title="Instagram">
+            title="Instagram" aria-label="Instagram (abre em nova guia)">
             <img src="imagens/instagram.png" alt="Instagram" class="footer-icon" />
           </a>
-          <a href="https://wa.me/554933809550" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+          <a href="https://wa.me/554933809550" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp (abre em nova guia)">
             <img src="imagens/whatsapp_icone.png" alt="WhatsApp" class="footer-icon" />
           </a>
         </div>
@@ -301,7 +322,7 @@
   <script src="script.js"></script>
   <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20atendimento."
     class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Fale conosco no WhatsApp"
-    aria-label="Fale conosco no WhatsApp">
+    aria-label="Fale conosco no WhatsApp (abre em nova guia)">
     <img src="imagens/whatsapp.png" alt="" />
   </a>
 </body>
