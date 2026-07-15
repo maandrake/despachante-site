@@ -11,6 +11,10 @@
     content="Despachante, Lages, SC, veículos, documentos, regularização, transferência, licenciamento, Marcos Despachante" />
   <meta name="author" content="Marcos Alexandre Perdona" />
   <link rel="icon" type="image/png" href="imagens/icon_logo_48x48_rgb.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 
   <!-- SEO Avançado e Social -->
@@ -27,7 +31,11 @@
   <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
   <header class="scroll">
     <div class="banner">
-      <img src="imagens/banner.jpg" alt="Marcos Despachante" class="banner-img scroll-img" />
+      <picture>
+        <source srcset="imagens/banner.webp" type="image/webp" />
+        <img src="imagens/banner.jpg" width="300" height="300" alt="Marcos Despachante"
+          class="banner-img scroll-img" decoding="async" />
+      </picture>
       <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"
         aria-controls="main-menu">
         <span></span>
@@ -65,7 +73,12 @@
         </div>
       </div>
       <div class="hero-visual">
-        <img src="imagens/Carro_banner.png" alt="Veículo e documentação representando os serviços do escritório" />
+        <picture>
+          <source srcset="imagens/Carro_banner.webp" type="image/webp" />
+          <img src="imagens/Carro_banner.png" width="943" height="549"
+            alt="Veículo e documentação representando os serviços do escritório" decoding="async"
+            fetchpriority="high" />
+        </picture>
       </div>
     </section>
 
@@ -301,14 +314,26 @@
         <div class="footer-social">
           <a href="https://www.facebook.com/marcosdespachantelages?locale=pt_BR" target="_blank"
             rel="noopener noreferrer" title="Facebook" aria-label="Facebook (abre em nova guia)">
-            <img src="imagens/facebook.png" alt="Facebook" class="footer-icon" />
+            <picture>
+              <source srcset="imagens/facebook.webp" type="image/webp" />
+              <img src="imagens/facebook.png" width="32" height="32" alt="Facebook" class="footer-icon"
+                loading="lazy" decoding="async" />
+            </picture>
           </a>
           <a href="https://www.instagram.com/marcosdespachantelages/" target="_blank" rel="noopener noreferrer"
             title="Instagram" aria-label="Instagram (abre em nova guia)">
-            <img src="imagens/instagram.png" alt="Instagram" class="footer-icon" />
+            <picture>
+              <source srcset="imagens/instagram.webp" type="image/webp" />
+              <img src="imagens/instagram.png" width="32" height="32" alt="Instagram" class="footer-icon"
+                loading="lazy" decoding="async" />
+            </picture>
           </a>
           <a href="https://wa.me/554933809550" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp (abre em nova guia)">
-            <img src="imagens/whatsapp_icone.png" alt="WhatsApp" class="footer-icon" />
+            <picture>
+              <source srcset="imagens/whatsapp_icone.webp" type="image/webp" />
+              <img src="imagens/whatsapp_icone.png" width="32" height="32" alt="WhatsApp" class="footer-icon"
+                loading="lazy" decoding="async" />
+            </picture>
           </a>
         </div>
       </div>
@@ -323,7 +348,10 @@
   <a href="https://wa.me/554933809550?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20atendimento."
     class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Fale conosco no WhatsApp"
     aria-label="Fale conosco no WhatsApp (abre em nova guia)">
-    <img src="imagens/whatsapp.png" alt="" />
+    <picture>
+      <source srcset="imagens/whatsapp.webp" type="image/webp" />
+      <img src="imagens/whatsapp.png" width="100" height="100" alt="" decoding="async" />
+    </picture>
   </a>
 </body>
 

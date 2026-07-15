@@ -168,27 +168,8 @@ window.addEventListener("scroll", function () {
 window.addEventListener("resize", handleScrollEffects);
 window.addEventListener("load", handleScrollEffects);
 
-// Animações e formulário
+// Formulário
 document.addEventListener("DOMContentLoaded", function () {
-  const fadeElements = document.querySelectorAll(".fade-in");
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function revealVisibleElements() {
-    fadeElements.forEach((element) => {
-      const elementTop = element.getBoundingClientRect().top;
-      const elementBottom = element.getBoundingClientRect().bottom;
-      const isVisible = elementTop < window.innerHeight && elementBottom > 0;
-      if (isVisible) element.classList.add("show");
-    });
-  }
-
-  if (prefersReducedMotion) {
-    fadeElements.forEach((element) => element.classList.add("show"));
-  } else {
-    revealVisibleElements();
-    window.addEventListener("scroll", revealVisibleElements, { passive: true });
-  }
-
   const form = document.getElementById("orcamentoForm");
   const formStatus = document.getElementById("formStatus");
 
