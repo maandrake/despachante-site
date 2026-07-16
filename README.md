@@ -15,6 +15,7 @@ Site institucional do Marcos Despachante, escritório especializado em documenta
 - Localização e horário de atendimento;
 - Formulário de orçamento integrado ao Formspree;
 - Avaliações reais carregadas dinamicamente do Google Maps;
+- Fundo animado em Canvas no destaque principal, com preferência de movimento reduzido;
 - Política de Privacidade e Termos de Uso;
 - Layout responsivo e navegação acessível;
 - Metadados sociais, dados estruturados e sitemap;
@@ -25,6 +26,7 @@ Site institucional do Marcos Despachante, escritório especializado em documenta
 - HTML5;
 - CSS3;
 - JavaScript;
+- Canvas API;
 - GitHub Pages;
 - Google Maps JavaScript API e Places API (New) para avaliações;
 - Formspree para o envio do formulário.

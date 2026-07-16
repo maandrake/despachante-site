@@ -989,6 +989,8 @@ body {
 }
 
 .hero {
+  position: relative;
+  isolation: isolate;
   min-height: 540px;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
@@ -1000,6 +1002,16 @@ body {
     radial-gradient(circle at 85% 15%, rgba(131, 194, 255, 0.36), transparent 34%),
     linear-gradient(120deg, #004b8e 0%, #0063ba 58%, #1687de 100%);
   color: #fff;
+}
+
+.hero-speed-canvas {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .hero-content {
@@ -1086,6 +1098,8 @@ body {
 }
 
 .hero-visual {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1875,6 +1889,10 @@ html {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .hero-speed-canvas {
+    opacity: 0.45;
   }
 }
 
