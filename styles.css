@@ -999,9 +999,18 @@ body {
   overflow: hidden;
   padding: 72px max(32px, calc((100vw - 1240px) / 2));
   background:
-    radial-gradient(circle at 85% 15%, rgba(131, 194, 255, 0.36), transparent 34%),
-    linear-gradient(120deg, #004b8e 0%, #0063ba 58%, #1687de 100%);
+    radial-gradient(circle at 85% 15%, rgba(180, 229, 255, 0.34), transparent 34%),
+    linear-gradient(115deg, #0b67ad 0%, #1685c7 52%, #4eb3df 100%);
   color: #fff;
+}
+
+.hero::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(4, 52, 90, 0.42), rgba(4, 52, 90, 0.16) 62%, transparent);
+  content: "";
+  pointer-events: none;
 }
 
 .hero-speed-canvas {
