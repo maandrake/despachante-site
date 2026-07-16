@@ -13,6 +13,8 @@
   let frame = null;
   let isVisible = true;
   let previousFrameTime = 0;
+  let canAnimate = false;
+  let activationTimer = null;
 
   function createStreak() {
     return {
@@ -27,7 +29,7 @@
   }
 
   function resetStreaks() {
-    const total = Math.min(42, Math.max(20, Math.round(width / 32)));
+    const total = Math.min(30, Math.max(16, Math.round(width / 48)));
     streaks = Array.from({ length: total }, createStreak);
   }
 
@@ -45,6 +47,8 @@
 
   function drawFrame(time, shouldMove = true) {
     context.clearRect(0, 0, width, height);
+    context.strokeStyle = "rgba(255, 255, 255, 0.82)";
+    context.lineCap = "round";
 
     streaks.forEach(function (streak) {
       if (shouldMove) streak.x += streak.speed;
@@ -54,20 +58,9 @@
       }
 
       const endY = streak.y + streak.length * streak.slope;
-      const gradient = context.createLinearGradient(
-        streak.x - streak.length,
-        streak.y,
-        streak.x,
-        endY
-      );
-      gradient.addColorStop(0, "rgba(127, 203, 255, 0)");
-      gradient.addColorStop(1, "rgba(255, 255, 255, 0.9)");
-
       context.beginPath();
-      context.strokeStyle = gradient;
       context.globalAlpha = streak.opacity;
       context.lineWidth = streak.thickness;
-      context.lineCap = "round";
       context.moveTo(streak.x - streak.length, streak.y);
       context.lineTo(streak.x, endY);
       context.stroke();
@@ -78,7 +71,7 @@
   }
 
   function animate(time) {
-    if (time - previousFrameTime >= 32) {
+    if (time - previousFrameTime >= 50) {
       drawFrame(time);
     }
     frame = window.requestAnimationFrame(animate);
@@ -92,6 +85,10 @@
   function syncAnimation() {
     stopAnimation();
     if (reducedMotion.matches) {
+      drawFrame(0, false);
+      return;
+    }
+    if (!canAnimate) {
       drawFrame(0, false);
       return;
     }
@@ -121,6 +118,29 @@
   } else {
     reducedMotion.addListener(syncAnimation);
   }
+
+  function enableAnimation() {
+    if (canAnimate) return;
+    canAnimate = true;
+    if (activationTimer !== null) window.clearTimeout(activationTimer);
+    activationTimer = null;
+    syncAnimation();
+  }
+
+  function scheduleAnimation() {
+    const schedule = function () {
+      activationTimer = window.setTimeout(enableAnimation, 2500);
+    };
+
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+
+    ["pointerdown", "touchstart", "keydown"].forEach(function (eventName) {
+      window.addEventListener(eventName, enableAnimation, { once: true, passive: true });
+    });
+  }
+
   resizeCanvas();
   syncAnimation();
+  scheduleAnimation();
 })();
