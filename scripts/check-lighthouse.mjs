@@ -16,7 +16,8 @@ const thresholds = {
 };
 const pages = [
   { name: "Página principal", slug: "index", pathname: "/" },
-  { name: "Política de Privacidade", slug: "privacidade", pathname: "/privacidade.html" }
+  { name: "Política de Privacidade", slug: "privacidade", pathname: "/privacidade.html" },
+  { name: "Termos de Uso", slug: "termos-de-uso", pathname: "/termos-de-uso.html" }
 ];
 const contentTypes = {
   ".css": "text/css; charset=utf-8",

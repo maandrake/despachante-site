@@ -14,7 +14,8 @@ Site institucional do Marcos Despachante, escritório especializado em documenta
 - Atendimento contextualizado pelo WhatsApp;
 - Localização e horário de atendimento;
 - Formulário de orçamento integrado ao Formspree;
-- Política de Privacidade;
+- Avaliações reais carregadas dinamicamente do Google Maps;
+- Política de Privacidade e Termos de Uso;
 - Layout responsivo e navegação acessível;
 - Metadados sociais, dados estruturados e sitemap;
 - Imagens WebP com fallback para os formatos originais.
@@ -25,6 +26,7 @@ Site institucional do Marcos Despachante, escritório especializado em documenta
 - CSS3;
 - JavaScript;
 - GitHub Pages;
+- Google Maps JavaScript API e Places API (New) para avaliações;
 - Formspree para o envio do formulário.
 
 ## Estrutura principal
@@ -36,6 +38,7 @@ Site institucional do Marcos Despachante, escritório especializado em documenta
 ├── CNAME
 ├── index.html
 ├── privacidade.html
+├── termos-de-uso.html
 ├── robots.txt
 ├── script.js
 ├── sitemap.xml
@@ -105,7 +108,13 @@ Os limites mínimos do Lighthouse são: desempenho 75, acessibilidade 90, boas p
 
 ## Privacidade
 
-O formulário envia os dados informados ao Formspree. As finalidades, o prazo de retenção, os direitos dos titulares e os serviços externos utilizados estão descritos em [privacidade.html](privacidade.html).
+O formulário envia os dados informados ao Formspree. As finalidades, o prazo de retenção, os direitos dos titulares e os serviços externos utilizados estão descritos em [privacidade.html](privacidade.html). As condições de uso e as regras aplicáveis ao conteúdo do Google Maps estão em [termos-de-uso.html](termos-de-uso.html).
+
+## Avaliações do Google
+
+A página principal solicita as avaliações do estabelecimento diretamente à Places API quando a seção se aproxima da área visível. Os dados são exibidos de forma transitória, sem cache ou cópia permanente no site, e permanecem vinculados ao autor e à avaliação original no Google Maps.
+
+A chave usada no navegador deve permanecer protegida no Google Cloud com restrições de referenciador HTTP para os domínios publicados e restrições somente às APIs necessárias. O Place ID utilizado é `ChIJ8zI32D0f4JQRiuik9OeR3O0`.
 
 ## Direitos
 

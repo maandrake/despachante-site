@@ -3,7 +3,7 @@ import path from "node:path";
 import process from "node:process";
 
 const root = process.cwd();
-const pages = ["index.html", "privacidade.html", "404.html"];
+const pages = ["index.html", "privacidade.html", "termos-de-uso.html", "404.html"];
 const failures = new Set();
 const idsByPage = new Map();
 let checkedReferences = 0;

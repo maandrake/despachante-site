@@ -337,6 +337,59 @@
         </form>
       </div>
     </section>
+
+    <section id="avaliacoes" class="google-reviews-section quadro-container"
+      aria-labelledby="avaliacoes-title">
+      <div class="section-heading">
+        <p class="section-label">Avaliações no Google</p>
+        <h2 id="avaliacoes-title">A confiança de quem já contou com nosso atendimento</h2>
+        <p>Veja experiências compartilhadas por clientes do Marcos Despachante.</p>
+      </div>
+
+      <div class="google-reviews-shell">
+        <div id="googleReviewsSummary" class="google-reviews-summary" hidden>
+          <strong id="googleReviewsRating" class="google-reviews-rating"></strong>
+          <span id="googleReviewsSummaryStars" class="google-review-stars" aria-hidden="true">★★★★★</span>
+          <span id="googleReviewsCount" class="google-reviews-count"></span>
+        </div>
+
+        <p id="googleReviewsStatus" class="google-reviews-status" role="status" aria-live="polite">
+          Consulte as avaliações do Marcos Despachante diretamente no Google Maps.
+        </p>
+
+        <div id="googleReviewsGrid" class="google-reviews-grid" tabindex="-1" aria-live="polite" hidden></div>
+
+        <nav id="googleReviewsNavigation" class="google-reviews-navigation"
+          aria-label="Navegação entre avaliações" hidden>
+          <button id="googleReviewsPrevious" class="google-reviews-control" type="button"
+            aria-label="Mostrar avaliações anteriores">‹</button>
+          <span id="googleReviewsPagination" class="google-reviews-pagination" aria-live="polite"></span>
+          <button id="googleReviewsNext" class="google-reviews-control" type="button"
+            aria-label="Mostrar próximas avaliações">›</button>
+        </nav>
+
+        <div class="google-reviews-actions">
+          <a class="btn btn-secondary"
+            href="https://www.google.com/maps/place/?q=place_id:ChIJ8zI32D0f4JQRiuik9OeR3O0"
+            target="_blank" rel="noopener noreferrer"
+            aria-label="Ver todas as avaliações no Google Maps (abre em nova guia)">Ver todas no Google</a>
+          <a class="btn btn-google-review"
+            href="https://search.google.com/local/writereview?placeid=ChIJ8zI32D0f4JQRiuik9OeR3O0"
+            target="_blank" rel="noopener noreferrer"
+            aria-label="Avaliar o Marcos Despachante no Google (abre em nova guia)">Avalie nosso atendimento</a>
+        </div>
+
+        <p class="google-reviews-disclosure">
+          Avaliações selecionadas e ordenadas por relevância pelo Google Maps.
+        </p>
+        <a class="google-maps-attribution"
+          href="https://www.google.com/maps/place/?q=place_id:ChIJ8zI32D0f4JQRiuik9OeR3O0"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="Abrir a página do Marcos Despachante no Google Maps (abre em nova guia)">
+          <span translate="no">Google Maps</span>
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer id="contato" class="footer quadro-container">
@@ -350,6 +403,7 @@
           <li><a href="#sobre">Sobre</a></li>
           <li><a href="#localizacao">Localização</a></li>
           <li><a href="#orcamento">Orçamento</a></li>
+          <li><a href="#avaliacoes">Avaliações</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
       </div>
@@ -398,7 +452,10 @@
     </div>
     <div class="footer-copy">
       <span>© 2019 - 2026 Marcos Despachante. Todos os direitos reservados. CNPJ: 34.287.137/0001-90.</span>
-      <a class="footer-privacy-link" href="privacidade.html">Política de Privacidade</a>
+      <span class="footer-legal-links">
+        <a class="footer-privacy-link" href="privacidade.html">Política de Privacidade</a>
+        <a class="footer-privacy-link" href="termos-de-uso.html">Termos de Uso</a>
+      </span>
     </div>
   </footer>
 

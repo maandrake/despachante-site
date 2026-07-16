@@ -5,7 +5,7 @@
   "description": "Site institucional do Marcos Despachante",
   "scripts": {
     "validate": "npm run validate:html && npm run validate:links && npm run validate:lighthouse",
-    "validate:html": "html-validate index.html privacidade.html 404.html",
+    "validate:html": "html-validate index.html privacidade.html termos-de-uso.html 404.html",
     "validate:links": "node scripts/check-links.mjs",
     "validate:lighthouse": "node scripts/check-lighthouse.mjs"
   },

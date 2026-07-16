@@ -122,6 +122,243 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+(function setupGoogleReviews() {
+  const section = document.getElementById("avaliacoes");
+  if (!section) return;
+
+  const apiKey = "AIzaSyC_7au5yuzWE38JI8VSzm2q2X7Q1TCOemI";
+  const placeId = "ChIJ8zI32D0f4JQRiuik9OeR3O0";
+  const profileUrl = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
+  const summary = document.getElementById("googleReviewsSummary");
+  const ratingElement = document.getElementById("googleReviewsRating");
+  const summaryStars = document.getElementById("googleReviewsSummaryStars");
+  const countElement = document.getElementById("googleReviewsCount");
+  const status = document.getElementById("googleReviewsStatus");
+  const grid = document.getElementById("googleReviewsGrid");
+  const navigation = document.getElementById("googleReviewsNavigation");
+  const previousButton = document.getElementById("googleReviewsPrevious");
+  const nextButton = document.getElementById("googleReviewsNext");
+  const pagination = document.getElementById("googleReviewsPagination");
+
+  let reviews = [];
+  let currentPage = 0;
+  let pageSize = getPageSize();
+  let loadingStarted = false;
+  let resizeTimer;
+
+  function getPageSize() {
+    if (window.matchMedia("(max-width: 768px)").matches) return 1;
+    if (window.matchMedia("(max-width: 980px)").matches) return 2;
+    return 3;
+  }
+
+  function setFallback() {
+    status.hidden = false;
+    status.textContent = "Não foi possível carregar as avaliações agora. Você ainda pode consultá-las diretamente no Google Maps.";
+    grid.hidden = true;
+    navigation.hidden = true;
+  }
+
+  function createExternalLink(url, className, label) {
+    const link = document.createElement("a");
+    link.href = url;
+    link.className = className;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = label;
+    return link;
+  }
+
+  function createAvatarFallback(authorName) {
+    const fallback = document.createElement("span");
+    fallback.className = "google-review-avatar-fallback";
+    fallback.setAttribute("aria-hidden", "true");
+    fallback.textContent = (authorName || "Cliente")
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0))
+      .join("")
+      .toUpperCase();
+    return fallback;
+  }
+
+  function createReviewCard(review) {
+    const article = document.createElement("article");
+    article.className = "google-review-card";
+
+    const author = review.authorAttribution || {};
+    const authorName = author.displayName || "Cliente Google";
+    const authorArea = document.createElement("div");
+    authorArea.className = "google-review-author";
+
+    let avatar = createAvatarFallback(authorName);
+    if (author.photoURI) {
+      const image = document.createElement("img");
+      image.className = "google-review-avatar";
+      image.src = author.photoURI;
+      image.alt = `Foto de ${authorName}`;
+      image.width = 48;
+      image.height = 48;
+      image.loading = "lazy";
+      image.decoding = "async";
+      image.addEventListener("error", function () {
+        image.replaceWith(createAvatarFallback(authorName));
+      }, { once: true });
+      avatar = image;
+    }
+    authorArea.appendChild(avatar);
+
+    const authorDetails = document.createElement("div");
+    authorDetails.className = "google-review-author-details";
+    if (author.uri) {
+      authorDetails.appendChild(createExternalLink(author.uri, "google-review-author-name", authorName));
+    } else {
+      const name = document.createElement("span");
+      name.className = "google-review-author-name";
+      name.textContent = authorName;
+      authorDetails.appendChild(name);
+    }
+
+    if (review.relativePublishTimeDescription) {
+      const date = document.createElement("span");
+      date.className = "google-review-date";
+      date.textContent = review.relativePublishTimeDescription;
+      authorDetails.appendChild(date);
+    }
+    authorArea.appendChild(authorDetails);
+    article.appendChild(authorArea);
+
+    const reviewRating = Number(review.rating) || 0;
+    const stars = document.createElement("span");
+    stars.className = "google-review-stars";
+    stars.textContent = "★★★★★";
+    stars.style.setProperty("--rating", String(reviewRating));
+    stars.setAttribute("role", "img");
+    stars.setAttribute("aria-label", `Avaliação de ${reviewRating.toLocaleString("pt-BR")} de 5 estrelas`);
+    article.appendChild(stars);
+
+    const reviewText = document.createElement("p");
+    reviewText.className = "google-review-text";
+    reviewText.textContent = typeof review.text === "string" && review.text.trim()
+      ? review.text.trim()
+      : "Este cliente avaliou o atendimento no Google sem deixar um comentário.";
+    article.appendChild(reviewText);
+
+    if (review.googleMapsURI) {
+      const source = createExternalLink(review.googleMapsURI, "google-review-source", "Ver avaliação no Google Maps");
+      source.setAttribute("aria-label", `Ver a avaliação de ${authorName} no Google Maps (abre em nova guia)`);
+      article.appendChild(source);
+    }
+
+    return article;
+  }
+
+  function renderCurrentPage() {
+    const pageCount = Math.ceil(reviews.length / pageSize);
+    currentPage = Math.min(currentPage, Math.max(pageCount - 1, 0));
+    const firstReview = currentPage * pageSize;
+
+    grid.replaceChildren(...reviews.slice(firstReview, firstReview + pageSize).map(createReviewCard));
+    grid.hidden = reviews.length === 0;
+
+    navigation.hidden = pageCount <= 1;
+    previousButton.disabled = currentPage === 0;
+    nextButton.disabled = currentPage >= pageCount - 1;
+    pagination.textContent = pageCount > 0 ? `Página ${currentPage + 1} de ${pageCount}` : "";
+  }
+
+  previousButton.addEventListener("click", function () {
+    if (currentPage === 0) return;
+    currentPage -= 1;
+    renderCurrentPage();
+    grid.focus({ preventScroll: true });
+  });
+
+  nextButton.addEventListener("click", function () {
+    const pageCount = Math.ceil(reviews.length / pageSize);
+    if (currentPage >= pageCount - 1) return;
+    currentPage += 1;
+    renderCurrentPage();
+    grid.focus({ preventScroll: true });
+  });
+
+  window.addEventListener("resize", function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(function () {
+      const nextPageSize = getPageSize();
+      if (nextPageSize === pageSize) return;
+      pageSize = nextPageSize;
+      currentPage = 0;
+      renderCurrentPage();
+    }, 150);
+  });
+
+  window.initGoogleReviews = async function () {
+    try {
+      const { Place } = await google.maps.importLibrary("places");
+      const place = new Place({ id: placeId, requestedLanguage: "pt-BR" });
+      await place.fetchFields({
+        fields: ["displayName", "rating", "userRatingCount", "reviews", "googleMapsURI"]
+      });
+
+      const placeRating = Number(place.rating) || 0;
+      const reviewCount = Number(place.userRatingCount) || 0;
+      reviews = Array.isArray(place.reviews) ? place.reviews : [];
+
+      if (placeRating > 0) {
+        ratingElement.textContent = placeRating.toLocaleString("pt-BR", {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 1
+        });
+        summaryStars.style.setProperty("--rating", String(placeRating));
+        countElement.textContent = `${reviewCount.toLocaleString("pt-BR")} ${reviewCount === 1 ? "avaliação" : "avaliações"}`;
+        summary.setAttribute("aria-label", `Nota ${placeRating.toLocaleString("pt-BR")} de 5, com ${reviewCount.toLocaleString("pt-BR")} avaliações no Google Maps`);
+        summary.hidden = false;
+      }
+
+      const resolvedProfileUrl = place.googleMapsURI || profileUrl;
+      document.querySelectorAll(".google-maps-attribution, .google-reviews-actions a:first-child")
+        .forEach((link) => { link.href = resolvedProfileUrl; });
+
+      if (reviews.length === 0) {
+        setFallback();
+        return;
+      }
+
+      status.hidden = true;
+      renderCurrentPage();
+    } catch {
+      setFallback();
+    }
+  };
+
+  window.gm_authFailure = setFallback;
+
+  function loadGoogleMapsApi() {
+    if (loadingStarted) return;
+    loadingStarted = true;
+    status.textContent = "Carregando avaliações do Google Maps...";
+
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&loading=async&libraries=places&v=weekly&callback=initGoogleReviews`;
+    script.async = true;
+    script.defer = true;
+    script.onerror = setFallback;
+    document.head.appendChild(script);
+  }
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(function (entries) {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      loadGoogleMapsApi();
+    }, { rootMargin: "400px 0px" });
+    observer.observe(section);
+  } else {
+    loadGoogleMapsApi();
+  }
+})();
+
 // Controle do banner durante rolagem e redimensionamento
 let bannerApagado = false;
 let ticking = false;
