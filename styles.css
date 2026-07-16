@@ -1116,7 +1116,7 @@ body {
 
 .hero-visual img {
   display: block;
-  width: min(100%, 700px);
+  width: min(120%, 840px);
   height: auto;
   filter: drop-shadow(0 24px 32px rgba(0, 27, 54, 0.28));
 }
@@ -1392,7 +1392,7 @@ body {
   }
 
   .hero-visual img {
-    width: min(100%, 560px);
+    width: min(100%, 672px);
   }
 
   .services-grid {
