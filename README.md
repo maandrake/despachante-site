@@ -77,6 +77,32 @@ O sitemap deve ser cadastrado no Google Search Console:
 https://www.marcosdespachante.com.br/sitemap.xml
 ```
 
+## Validação automática
+
+O projeto possui verificações locais e um workflow do GitHub Actions para validar HTML, links internos e métricas do Lighthouse.
+
+Instale as dependências:
+
+```bash
+npm ci
+```
+
+Execute todas as verificações:
+
+```bash
+npm run validate
+```
+
+Também é possível executar cada etapa separadamente:
+
+```bash
+npm run validate:html
+npm run validate:links
+npm run validate:lighthouse
+```
+
+Os limites mínimos do Lighthouse são: desempenho 75, acessibilidade 90, boas práticas 85 e SEO 90. Os relatórios gerados pela automação ficam disponíveis como artefatos da execução no GitHub por 14 dias.
+
 ## Privacidade
 
 O formulário envia os dados informados ao Formspree. As finalidades, o prazo de retenção, os direitos dos titulares e os serviços externos utilizados estão descritos em [privacidade.html](privacidade.html).

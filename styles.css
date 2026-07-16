@@ -1885,3 +1885,14 @@ html {
 .whatsapp-float picture {
   display: contents;
 }
+
+/* Estabilidade de conteúdo e validação */
+.mapa-container iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+.phone-link {
+  white-space: nowrap;
+}

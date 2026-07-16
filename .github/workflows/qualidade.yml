@@ -1,0 +1,53 @@
+name: Qualidade do site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qualidade-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validar:
+    name: HTML, links e Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v7.0.0
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.8.0
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Validar HTML
+        run: npm run validate:html
+
+      - name: Verificar links internos
+        run: npm run validate:links
+
+      - name: Executar Lighthouse CI
+        run: npm run validate:lighthouse
+
+      - name: Salvar relatórios do Lighthouse
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: relatorios-lighthouse
+          path: relatorios-lighthouse/
+          include-hidden-files: false
+          if-no-files-found: warn
+          retention-days: 14

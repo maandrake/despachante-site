@@ -1,0 +1,20 @@
+{
+  "name": "marcos-despachante-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site institucional do Marcos Despachante",
+  "scripts": {
+    "validate": "npm run validate:html && npm run validate:links && npm run validate:lighthouse",
+    "validate:html": "html-validate index.html privacidade.html 404.html",
+    "validate:links": "node scripts/check-links.mjs",
+    "validate:lighthouse": "node scripts/check-lighthouse.mjs"
+  },
+  "devDependencies": {
+    "chrome-launcher": "1.2.1",
+    "html-validate": "11.5.6",
+    "lighthouse": "12.6.1"
+  },
+  "engines": {
+    "node": ">=24.8.0"
+  }
+}

@@ -13,3 +13,7 @@ Desktop.ini
 # Logs e arquivos temporários
 *.log
 *.tmp
+
+# Ferramentas de qualidade
+node_modules/
+relatorios-lighthouse/
