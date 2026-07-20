@@ -985,7 +985,18 @@ body {
 .main-menu .menu-btn:hover,
 .main-menu .menu-btn:focus-visible {
   background: rgba(255, 255, 255, 0.2);
-  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.38);
+}
+
+.main-menu .menu-btn:hover .menu-texto,
+.main-menu .menu-btn:focus-visible .menu-texto {
+  max-width: none;
+  opacity: 1;
+}
+
+.main-menu .menu-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
 }
 
 .hero {
@@ -1322,7 +1333,7 @@ body {
 .contact-area {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: start;
+  align-items: stretch;
   gap: 24px;
   scroll-margin-top: 110px;
 }
@@ -1330,6 +1341,7 @@ body {
 .location-card,
 .form-card {
   min-width: 0;
+  height: 100%;
   padding: 32px;
   border: 1px solid #d5e5f3;
   border-radius: 20px;
