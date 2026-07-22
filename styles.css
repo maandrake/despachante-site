@@ -7,6 +7,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
@@ -2188,6 +2189,204 @@ a.google-review-author-name:focus-visible,
 .google-maps-attribution:hover,
 .google-maps-attribution:focus-visible {
   text-decoration: underline;
+}
+
+/* Tema automático conforme a preferência do navegador ou sistema */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+
+  body,
+  .privacy-page-main {
+    background: #0d1824;
+    color: #edf6fc;
+  }
+
+  .banner {
+    background-color: rgba(13, 24, 36, 0.9);
+  }
+
+  .banner.apagado {
+    background-color: #111f2d;
+  }
+
+  .main-menu {
+    background: linear-gradient(to right, #064f88 0%, #123f64 100%);
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero {
+    background:
+      radial-gradient(circle at 85% 15%, rgba(72, 162, 211, 0.22), transparent 34%),
+      linear-gradient(115deg, #073a61 0%, #0a527f 52%, #176b98 100%);
+  }
+
+  .hero::after {
+    background: linear-gradient(90deg, rgba(1, 18, 32, 0.62), rgba(3, 31, 51, 0.3) 62%, transparent);
+  }
+
+  .section-label,
+  .service-card h3,
+  .service-card a,
+  .text-link,
+  .privacy-notice a,
+  .privacy-acknowledgement a,
+  .privacy-toc a:hover,
+  .privacy-toc a:focus-visible,
+  .privacy-section a,
+  .privacy-back,
+  .google-review-source {
+    color: #75c5ff;
+  }
+
+  .section-heading h2,
+  .about-content h2,
+  .process-step h3,
+  .about-highlights strong,
+  .privacy-toc h2,
+  .privacy-section h2,
+  .google-review-author-name {
+    color: #edf6fc;
+  }
+
+  .section-heading > p:last-child,
+  .about-content > p,
+  .service-card p,
+  .process-step p,
+  .about-highlights span,
+  .privacy-acknowledgement,
+  .privacy-toc li,
+  .privacy-section p,
+  .privacy-section li,
+  .form-required-note,
+  .form-help,
+  .google-review-date,
+  .google-review-text {
+    color: #b6c7d4;
+  }
+
+  .service-card,
+  .process-step,
+  .about-highlights li,
+  .location-card,
+  .form-card,
+  .privacy-toc,
+  .privacy-content,
+  .google-review-card {
+    border-color: #30465a;
+    background: #172534;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  }
+
+  .service-card:hover {
+    border-color: #559bd0;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
+  }
+
+  .service-number {
+    color: #29465f;
+  }
+
+  .process-section,
+  .privacy-contact-card {
+    background: #122434;
+  }
+
+  .about-section {
+    background: linear-gradient(135deg, #172534 0%, #102232 100%);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.24);
+  }
+
+  .privacy-notice,
+  .privacy-intro,
+  .form-status.is-pending {
+    border-color: #365f7d;
+    background: #132b3e;
+    color: #c1d8e8;
+  }
+
+  .privacy-contact-card p {
+    color: #c1d8e8;
+  }
+
+  .privacy-page-hero {
+    background:
+      radial-gradient(circle at 85% 15%, rgba(83, 169, 218, 0.22), transparent 34%),
+      linear-gradient(120deg, #062f50 0%, #084c79 58%, #11638f 100%);
+  }
+
+  .privacy-section + .privacy-section {
+    border-top-color: #30465a;
+  }
+
+  .privacy-section h3 {
+    color: #9bd2fa;
+  }
+
+  .skip-link {
+    background: #edf6fc;
+    color: #073a61;
+  }
+
+  .form-group label {
+    color: #dcebf5;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    border-color: #3c566b;
+    background: #0f1e2b;
+    color: #edf6fc;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #8fa6b7;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: #75c5ff;
+    box-shadow: 0 0 0 3px rgba(117, 197, 255, 0.2);
+  }
+
+  .google-reviews-shell {
+    background:
+      radial-gradient(circle at 90% 0, rgba(70, 158, 207, 0.2), transparent 34%),
+      linear-gradient(135deg, #062f50 0%, #084c79 58%, #105f8b 100%);
+  }
+
+  .google-review-avatar-fallback {
+    background: #213d53;
+    color: #9bd2fa;
+  }
+
+  .google-review-card .google-review-stars {
+    color: #536776;
+  }
+
+  .google-reviews-control,
+  .btn-google-review {
+    border-color: #53758f;
+    background: #172534;
+    color: #9bd2fa;
+  }
+
+  .btn-google-review:hover,
+  .btn-google-review:focus-visible {
+    background: #21384a;
+  }
+
+  .texto-azul-escuro {
+    color: #9bd2fa;
+  }
+
+  .texto-azul-claro {
+    color: #75c5ff;
+  }
 }
 
 .footer-legal-links {

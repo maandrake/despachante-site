@@ -10,11 +10,21 @@
   if (!context) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
   const baseLayers = [
     { count: 272, minRadius: 1.25, maxRadius: 3.5, alpha: 0.55, speed: 2, color: [0, 20, 48] },
     { count: 112, minRadius: 3.88, maxRadius: 10.13, alpha: 0.43, speed: 1.2, color: [0, 30, 62] },
     { count: 16, minRadius: 14, maxRadius: 34.38, alpha: 0.3, speed: 0.64, color: [2, 42, 78] }
   ];
+  const layerPalettes = {
+    light: [[0, 20, 48], [0, 30, 62], [2, 42, 78]],
+    dark: [[126, 201, 242], [91, 181, 231], [62, 157, 211]]
+  };
+  const glowPalettes = {
+    light: [[106, 198, 232], [84, 213, 232], [42, 232, 216], [76, 224, 244]],
+    dark: [[58, 143, 194], [48, 162, 188], [35, 176, 166], [67, 177, 210]]
+  };
+  let glowColors = glowPalettes.light;
   let layers = [];
 
   let width = 0;
@@ -42,8 +52,14 @@
 
   function configureLayers() {
     const scale = getParticleScale();
-    layers = baseLayers.map(function (layer) {
-      return { ...layer, count: Math.max(1, Math.round(layer.count * scale)) };
+    const palette = darkTheme.matches ? layerPalettes.dark : layerPalettes.light;
+    glowColors = darkTheme.matches ? glowPalettes.dark : glowPalettes.light;
+    layers = baseLayers.map(function (layer, layerIndex) {
+      return {
+        ...layer,
+        color: palette[layerIndex],
+        count: Math.max(1, Math.round(layer.count * scale))
+      };
     });
   }
 
@@ -105,7 +121,7 @@
       height * 0.47 + Math.cos(t * 1.3) * 26,
       Math.min(width * 0.34, 430),
       100 + Math.sin(t * 1.7) * 22,
-      [106, 198, 232],
+      glowColors[0],
       0.25
     );
     drawGlow(
@@ -113,7 +129,7 @@
       height * 0.55 + Math.sin(t) * 42,
       Math.min(width * 0.27, 360),
       180,
-      [84, 213, 232],
+      glowColors[1],
       0.15
     );
     drawGlow(
@@ -121,12 +137,12 @@
       height * 0.4 + Math.cos(t) * 55,
       145,
       95,
-      [42, 232, 216],
+      glowColors[2],
       0.12
     );
 
     if (pointer.active) {
-      drawGlow(pointer.x, pointer.y, 190, 135, [76, 224, 244], 0.22);
+      drawGlow(pointer.x, pointer.y, 190, 135, glowColors[3], 0.22);
     }
   }
 
@@ -233,6 +249,17 @@
       resizeCanvas();
       syncAnimation();
     });
+  }
+
+  function handleThemeChange() {
+    resizeCanvas();
+    syncAnimation();
+  }
+
+  if (typeof darkTheme.addEventListener === "function") {
+    darkTheme.addEventListener("change", handleThemeChange);
+  } else {
+    darkTheme.addListener(handleThemeChange);
   }
 
   function updatePointer(clientX, clientY) {
