@@ -10,11 +10,12 @@
   if (!context) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const layers = [
+  const baseLayers = [
     { count: 272, minRadius: 1.25, maxRadius: 3.5, alpha: 0.55, speed: 2, color: [0, 20, 48] },
     { count: 112, minRadius: 3.88, maxRadius: 10.13, alpha: 0.43, speed: 1.2, color: [0, 30, 62] },
     { count: 16, minRadius: 14, maxRadius: 34.38, alpha: 0.3, speed: 0.64, color: [2, 42, 78] }
   ];
+  let layers = [];
 
   let width = 0;
   let height = 0;
@@ -23,6 +24,28 @@
   let isVisible = true;
   let previousFrameTime = 0;
   const pointer = { x: 0, y: 0, active: false };
+
+  function isLowerCapacityDevice() {
+    const limitedCpu = typeof navigator.hardwareConcurrency === "number" &&
+      navigator.hardwareConcurrency <= 4;
+    const limitedMemory = typeof navigator.deviceMemory === "number" &&
+      navigator.deviceMemory <= 4;
+    return limitedCpu || limitedMemory;
+  }
+
+  function getParticleScale() {
+    if (reducedMotion.matches) return 0.15;
+    if (isLowerCapacityDevice()) return 0.4;
+    if (window.matchMedia("(max-width: 768px)").matches) return 0.55;
+    return 1;
+  }
+
+  function configureLayers() {
+    const scale = getParticleScale();
+    layers = baseLayers.map(function (layer) {
+      return { ...layer, count: Math.max(1, Math.round(layer.count * scale)) };
+    });
+  }
 
   function createParticle(layer, layerIndex) {
     return {
@@ -39,6 +62,7 @@
 
   function resetParticles() {
     particles = [];
+    configureLayers();
     layers.forEach(function (layer, layerIndex) {
       for (let index = 0; index < layer.count; index += 1) {
         particles.push(createParticle(layer, layerIndex));
@@ -48,7 +72,8 @@
 
   function resizeCanvas() {
     const bounds = hero.getBoundingClientRect();
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    const constrained = reducedMotion.matches || isLowerCapacityDevice();
+    const pixelRatio = constrained ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
     width = Math.max(bounds.width, 1);
     height = Math.max(bounds.height, 1);
     canvas.width = Math.round(width * pixelRatio);
@@ -158,7 +183,8 @@
   }
 
   function animate(time) {
-    if (time - previousFrameTime >= 42) {
+    const frameInterval = isLowerCapacityDevice() ? 66 : 42;
+    if (time - previousFrameTime >= frameInterval) {
       render(time);
       previousFrameTime = time;
     }
@@ -198,9 +224,15 @@
 
   document.addEventListener("visibilitychange", syncAnimation);
   if (typeof reducedMotion.addEventListener === "function") {
-    reducedMotion.addEventListener("change", syncAnimation);
+    reducedMotion.addEventListener("change", function () {
+      resizeCanvas();
+      syncAnimation();
+    });
   } else {
-    reducedMotion.addListener(syncAnimation);
+    reducedMotion.addListener(function () {
+      resizeCanvas();
+      syncAnimation();
+    });
   }
 
   function updatePointer(clientX, clientY) {

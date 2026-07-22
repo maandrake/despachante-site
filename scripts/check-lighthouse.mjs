@@ -8,6 +8,7 @@ import lighthouse from "lighthouse";
 const root = process.cwd();
 const reportDirectory = path.join(root, "relatorios-lighthouse");
 const categories = ["performance", "accessibility", "best-practices", "seo"];
+const measurementCount = 3;
 const thresholds = {
   performance: 0.75,
   accessibility: 0.9,
@@ -72,6 +73,11 @@ const server = createServer(async (request, response) => {
 let chrome;
 const failures = [];
 
+function median(values) {
+  const sortedValues = [...values].sort((first, second) => first - second);
+  return sortedValues[Math.floor(sortedValues.length / 2)];
+}
+
 try {
   await mkdir(reportDirectory, { recursive: true });
   await new Promise((resolve, reject) => {
@@ -88,26 +94,45 @@ try {
 
   for (const page of pages) {
     const url = `http://127.0.0.1:${address.port}${page.pathname}`;
-    const result = await lighthouse(url, {
-      port: chrome.port,
-      output: "html",
-      logLevel: "error",
-      onlyCategories: categories
-    });
+    const measurements = [];
 
-    if (!result) throw new Error(`Lighthouse não retornou resultado para ${page.name}`);
+    console.log(`\n${page.name} (${measurementCount} medições):`);
+    for (let measurement = 1; measurement <= measurementCount; measurement += 1) {
+      const result = await lighthouse(url, {
+        port: chrome.port,
+        output: "html",
+        logLevel: "error",
+        onlyCategories: categories
+      });
 
-    const htmlReport = Array.isArray(result.report) ? result.report[0] : result.report;
-    await writeFile(path.join(reportDirectory, `${page.slug}.html`), htmlReport, "utf8");
-    await writeFile(
-      path.join(reportDirectory, `${page.slug}.json`),
-      JSON.stringify(result.lhr, null, 2),
-      "utf8"
-    );
+      if (!result) {
+        throw new Error(`Lighthouse não retornou a medição ${measurement} para ${page.name}`);
+      }
 
-    console.log(`\n${page.name}:`);
+      const scores = Object.fromEntries(categories.map((category) => [
+        category,
+        result.lhr.categories[category]?.score ?? 0
+      ]));
+      measurements.push(scores);
+
+      const scoreSummary = categories
+        .map((category) => `${category} ${Math.round(scores[category] * 100)}`)
+        .join(", ");
+      console.log(`- medição ${measurement}: ${scoreSummary}`);
+
+      const reportName = `${page.slug}-medicao-${measurement}`;
+      const htmlReport = Array.isArray(result.report) ? result.report[0] : result.report;
+      await writeFile(path.join(reportDirectory, `${reportName}.html`), htmlReport, "utf8");
+      await writeFile(
+        path.join(reportDirectory, `${reportName}.json`),
+        JSON.stringify(result.lhr, null, 2),
+        "utf8"
+      );
+    }
+
+    console.log("Mediana usada na validação:");
     for (const category of categories) {
-      const score = result.lhr.categories[category]?.score ?? 0;
+      const score = median(measurements.map((measurement) => measurement[category]));
       const scorePercent = Math.round(score * 100);
       const minimumPercent = Math.round(thresholds[category] * 100);
       console.log(`- ${category}: ${scorePercent} (mínimo ${minimumPercent})`);
