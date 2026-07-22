@@ -1127,9 +1127,13 @@ body {
 
 .hero-visual img {
   display: block;
-  width: min(120%, 840px);
+  width: min(100%, 440px);
   height: auto;
   filter: drop-shadow(0 24px 32px rgba(0, 27, 54, 0.28));
+}
+
+.hero-visual-404 img {
+  width: min(100%, 420px);
 }
 
 .site-section,
@@ -1405,6 +1409,10 @@ body {
 
   .hero-visual img {
     width: min(100%, 672px);
+  }
+
+  .hero-visual-404 img {
+    width: min(100%, 520px);
   }
 
   .services-grid {
