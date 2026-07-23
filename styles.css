@@ -2434,3 +2434,132 @@ a.google-review-author-name:focus-visible,
     flex-direction: column;
   }
 }
+
+/* Transição entre páginas */
+.page-transition {
+  position: fixed;
+  z-index: 99999;
+  inset: 0;
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page-transition-slice {
+  width: 20%;
+  height: 100%;
+  background: #0063ba;
+  transform: translateY(-101%);
+  transition: transform 400ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.page-transition-slice:nth-child(2) {
+  transition-delay: 100ms;
+}
+
+.page-transition-slice:nth-child(3) {
+  transition-delay: 200ms;
+}
+
+.page-transition-slice:nth-child(4) {
+  transition-delay: 300ms;
+}
+
+.page-transition-slice:nth-child(5) {
+  transition-delay: 400ms;
+}
+
+.page-transition-logo {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: min(58vw, 380px);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.96);
+  transition: opacity 300ms ease 400ms, transform 300ms ease 400ms;
+}
+
+.page-transition-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+.page-transition.is-exiting {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.page-transition.is-exiting .page-transition-slice {
+  transform: translateY(0);
+}
+
+.page-transition.is-exiting .page-transition-logo {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.page-transition.is-entry {
+  visibility: visible;
+}
+
+.page-transition.is-entry .page-transition-slice {
+  animation: page-transition-reveal 400ms cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+.page-transition.is-entry .page-transition-slice:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.page-transition.is-entry .page-transition-slice:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.page-transition.is-entry .page-transition-slice:nth-child(4) {
+  animation-delay: 300ms;
+}
+
+.page-transition.is-entry .page-transition-slice:nth-child(5) {
+  animation-delay: 400ms;
+}
+
+.page-transition.is-entry .page-transition-logo {
+  animation: page-transition-logo-reveal 700ms ease both;
+}
+
+@keyframes page-transition-reveal {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-101%);
+  }
+}
+
+@keyframes page-transition-logo-reveal {
+  0%,
+  35% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .page-transition-slice {
+    background: #084c79;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    display: none;
+  }
+}
